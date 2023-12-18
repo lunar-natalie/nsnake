@@ -2,4 +2,4 @@ Under construction
 
 # nSnake
 
-C++17 TUI snake clone
+C++17 console Snake clone
