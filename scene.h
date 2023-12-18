@@ -29,7 +29,7 @@ public:
 
     virtual SceneId process_event(int ch) = 0;
 
-    SceneId id = SceneId::NONE;
+    const SceneId id = SceneId::NONE;
 
 protected:
     const SceneData * data;

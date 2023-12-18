@@ -19,7 +19,7 @@ public:
 
     SceneId process_event(int ch) override;
 
-    SceneId id = SceneId::MENU;
+    const SceneId id = SceneId::MENU;
 };
 
 } // nsnake
