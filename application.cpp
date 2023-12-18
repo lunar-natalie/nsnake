@@ -28,6 +28,8 @@ Application::Application()
 
     // Initial scene
     scene = dynamic_cast<Scene *>(new MenuScene(&scene_data));
+    if (scene == nullptr)
+        throw std::runtime_error("Failed to create initial scene");
     update_scene_data();
 }
 
@@ -35,40 +37,35 @@ void Application::start()
 {
     auto done = false;
     do {
-        // Default window border
-        border(0, 0, 0, 0, 0, 0, 0, 0);
-
-        // Draw current scene
-        if (scene != nullptr)
-            scene->draw();
+        // Draw
+        border(0, 0, 0, 0, 0, 0, 0, 0); // Default window border
+        scene->draw(); // Contents of current scene
 
         // Process events
         auto ch = getch(); // Get input and refresh
         switch (ch) {
             case KEY_RESIZE:
-                update_scene_data();
-                // Redraw
-                erase();
+                update_scene_data(); // Refresh extents
+                erase(); // Redraw before next iteration
                 break;
 
-            case 'q':
-                // Exit
+            case 'q': // Exit
                 done = true;
                 break;
 
             default:
-                if (scene != nullptr) {
-                    // Delegate event to the current scene
-                    auto new_id = scene->process_event(ch);
-                    if (new_id == SceneId::NONE) {
-                        // Exit if null scene returned
-                        done = true;
-                    }
-                    else if (new_id != scene->id) {
-                        // Clear graphics drawn by the current scene and create the new scene from returned ID
-                        erase();
-                        scene = new_scene(&scene_data, new_id);
-                    }
+                // Delegate the event to the current scene
+                auto new_id = scene->process_event(ch);
+                if (new_id == SceneId::NONE) {
+                    // Exit if null scene returned
+                    done = true;
+                }
+                else if (new_id != scene->id) {
+                    // Clear graphics drawn by the current scene and create the new scene from the returned ID
+                    erase();
+                    scene = new_scene(&scene_data, new_id);
+                    if (scene == nullptr)
+                        throw std::runtime_error("Invalid scene");
                 }
                 break;
         }
