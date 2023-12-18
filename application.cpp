@@ -60,10 +60,15 @@ void Application::start()
                 if (scene != nullptr) {
                     // Delegate event to the current scene
                     auto new_id = scene->process_event(ch);
-                    if (new_id == SceneId::NONE)
-                        done = true;  // Exit if null scene returned
-                    else if (new_id != scene->id)
-                        scene = new_scene(&scene_data, new_id); // Create new scene from return ID
+                    if (new_id == SceneId::NONE) {
+                        // Exit if null scene returned
+                        done = true;
+                    }
+                    else if (new_id != scene->id) {
+                        // Clear graphics drawn by the current scene and create the new scene from returned ID
+                        erase();
+                        scene = new_scene(&scene_data, new_id);
+                    }
                 }
                 break;
         }
