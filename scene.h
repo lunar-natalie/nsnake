@@ -25,6 +25,8 @@ public:
             : data{data}
     {}
 
+    virtual ~Scene() = default;
+
     virtual void draw() = 0;
     virtual SceneId process_event(int ch) = 0;
 
