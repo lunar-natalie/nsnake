@@ -17,7 +17,7 @@ void MenuScene::draw()
 SceneId MenuScene::process_event(int ch)
 {
     if (ch == '\r') {
-        return SceneId::NONE;
+        return SceneId::GAME;
     }
     return id;
 }

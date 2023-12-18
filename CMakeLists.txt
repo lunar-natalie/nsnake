@@ -16,6 +16,8 @@ add_executable(nSnake main.cpp
         scene.cpp
         utils.h
         utils.cpp
+        game.cpp
+        game.h
 )
 target_include_directories(nSnake PRIVATE ${CURSES_INCLUDE_DIRS})
 target_link_libraries(nSnake PRIVATE ${CURSES_LIBRARIES})

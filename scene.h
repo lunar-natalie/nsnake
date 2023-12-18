@@ -11,7 +11,8 @@ namespace nsnake {
 
 enum class SceneId {
     NONE,
-    MENU
+    MENU,
+    GAME
 };
 
 struct SceneData {
