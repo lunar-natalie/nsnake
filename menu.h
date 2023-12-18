@@ -16,7 +16,6 @@ public:
     {}
 
     void draw() override;
-
     SceneId process_event(int ch) override;
 
     const SceneId id = SceneId::MENU;

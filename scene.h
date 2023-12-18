@@ -26,7 +26,6 @@ public:
     {}
 
     virtual void draw() = 0;
-
     virtual SceneId process_event(int ch) = 0;
 
     const SceneId id = SceneId::NONE;
