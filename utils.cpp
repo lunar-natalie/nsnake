@@ -9,7 +9,7 @@
 
 namespace nsnake {
 
-int addstr_center(const char * str, SceneData const * scene_data)
+int addstr_center(const char * str, SceneData const * scene_data) noexcept
 {
     auto pos = scene_data->window_extent;
     pos.x -= static_cast<int>(std::strlen(str));
