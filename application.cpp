@@ -24,7 +24,7 @@ Application::Application()
     nonl(); // Disable newline translation for faster cursor motion
     intrflush(stdscr, FALSE); // Disable flush on keyboard interrupt
     keypad(stdscr, TRUE); // Enable input
-    timeout(0); // Disable blocking on input
+    nodelay(stdscr, TRUE); // Disable blocking on input
 
     // Initial scene
     scene = dynamic_cast<Scene *>(new MenuScene(&scene_data));
