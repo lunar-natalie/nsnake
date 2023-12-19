@@ -18,7 +18,7 @@ public:
     void start();
 
 private:
-    Scene * scene = nullptr;
+    Scene * scene;
     SceneData scene_data;
 
     void update_scene_data();
