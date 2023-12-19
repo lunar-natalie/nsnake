@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
-      # TODO: Set to true when stable.
+      # Set to true when stable.
       fail-fast: false
 
       # Set up a matrix to run the following configurations:
