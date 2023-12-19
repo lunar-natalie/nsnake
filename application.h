@@ -12,7 +12,6 @@ namespace nsnake {
 class Application {
 public:
     Application();
-
     ~Application();
 
     void start();
