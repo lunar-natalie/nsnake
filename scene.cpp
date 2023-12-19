@@ -8,7 +8,7 @@
 
 namespace nsnake {
 
-Scene * new_scene(SceneData const * data, SceneId id)
+Scene * new_scene(SceneId id, SceneData const * data) noexcept
 {
     switch (id) {
         case SceneId::MENU:

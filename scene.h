@@ -36,7 +36,7 @@ protected:
     const SceneData * data;
 };
 
-Scene * new_scene(SceneData const * data, SceneId id);
+Scene * new_scene(SceneId id, SceneData const * data) noexcept;
 
 } // nsnake
 

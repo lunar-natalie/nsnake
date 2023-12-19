@@ -63,7 +63,7 @@ void Application::start()
                 else if (new_id != scene->id) {
                     // Clear graphics drawn by the current scene and create the new scene from the returned ID
                     erase();
-                    scene = new_scene(&scene_data, new_id);
+                    scene = new_scene(new_id, &scene_data);
                     if (scene == nullptr)
                         throw std::runtime_error("Invalid scene");
                 }
