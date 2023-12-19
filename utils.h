@@ -1,6 +1,5 @@
-//
-// Created by Natalie Wiggins on 18/12/2023.
-//
+// Copyright (c) 2023 Natalie Wiggins. All rights reserved.
+// SPDX-License-Identifier: BSD-3-Clause
 
 #ifndef NSNAKE_UTILS_H
 #define NSNAKE_UTILS_H

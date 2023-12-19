@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Natalie Wiggins. All rights reserved.
+// SPDX-License-Identifier: BSD-3-Clause
+
 #include <clocale>
 #include <stdexcept>
 #include <iostream>
