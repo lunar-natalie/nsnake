@@ -7,7 +7,7 @@
 
 namespace nsnake {
 
-Scene* new_scene(SceneId id, ApplicationContext const& context) noexcept
+Scene* new_scene(SceneId id, ApplicationContext const& context)
 {
     switch (id) {
         case SceneId::MENU:

@@ -32,7 +32,7 @@ protected:
     const ApplicationContext& context;
 };
 
-Scene* new_scene(SceneId id, ApplicationContext const& context) noexcept;
+Scene* new_scene(SceneId id, ApplicationContext const& context);
 
 }// namespace nsnake
 
