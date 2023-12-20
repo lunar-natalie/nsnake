@@ -6,7 +6,7 @@
 #include <curses.h>
 
 #include "application.h"
-#include "menu.h"
+#include "scenes/menu.h"
 
 namespace nsnake {
 

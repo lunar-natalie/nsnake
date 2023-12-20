@@ -11,14 +11,15 @@ add_executable(nSnake main.cpp
         application.h
         geometry.h
         scene.h
-        menu.cpp
-        menu.h
+        scenes/menu.cpp
+        scenes/menu.h
         scene.cpp
         utils.h
         utils.cpp
-        game.cpp
-        game.h
+        scenes/game.cpp
+        scenes/game.h
 )
-target_include_directories(nSnake PRIVATE ${CURSES_INCLUDE_DIRS})
+target_include_directories(nSnake
+        PRIVATE ${CMAKE_SOURCE_DIR} ${CURSES_INCLUDE_DIRS})
 target_link_libraries(nSnake PRIVATE ${CURSES_LIBRARIES})
 target_precompile_headers(nSnake PRIVATE "<curses.h>")

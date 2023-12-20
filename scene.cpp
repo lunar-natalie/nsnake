@@ -1,9 +1,9 @@
 // Copyright (c) 2023 Natalie Wiggins. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
-#include "game.h"
-#include "menu.h"
 #include "scene.h"
+#include "scenes/game.h"
+#include "scenes/menu.h"
 
 namespace nsnake {
 

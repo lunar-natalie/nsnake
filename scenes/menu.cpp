@@ -1,12 +1,14 @@
 // Copyright (c) 2023 Natalie Wiggins. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
-#include <cstring>
-
 #include "menu.h"
 #include "utils.h"
 
 namespace nsnake {
+
+MenuScene::MenuScene(SceneData const * data)
+    : Scene(data)
+{}
 
 void MenuScene::draw()
 {

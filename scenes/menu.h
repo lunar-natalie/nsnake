@@ -1,8 +1,8 @@
 // Copyright (c) 2023 Natalie Wiggins. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
-#ifndef NSNAKE_MENU_H
-#define NSNAKE_MENU_H
+#ifndef NSNAKE_SCENES_MENU_H
+#define NSNAKE_SCENES_MENU_H
 
 #include "scene.h"
 
@@ -10,9 +10,7 @@ namespace nsnake {
 
 class MenuScene : public Scene {
 public:
-    explicit MenuScene(SceneData const * data)
-            : Scene(data)
-    {}
+    explicit MenuScene(SceneData const * data);
 
     void draw() override;
     SceneId process_event(int ch) override;
@@ -22,4 +20,4 @@ public:
 
 }// namespace nsnake
 
-#endif //NSNAKE_MENU_H
+#endif//NSNAKE_SCENES_MENU_H

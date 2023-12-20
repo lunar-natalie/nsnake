@@ -5,6 +5,10 @@
 
 namespace nsnake {
 
+GameScene::GameScene(const SceneData * data)
+    : Scene(data)
+{}
+
 void GameScene::draw()
 {
 }

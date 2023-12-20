@@ -16,6 +16,11 @@ enum class SceneId {
 
 struct SceneData {
     V2i window_extent = {0, 0};
+
+    V2i window_center() const
+    {
+        return static_cast<V2i>(window_extent / 2);
+    }
 };
 
 class Scene {
