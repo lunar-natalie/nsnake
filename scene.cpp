@@ -7,13 +7,13 @@
 
 namespace nsnake {
 
-Scene * new_scene(SceneId id, SceneData const * data) noexcept
+Scene* new_scene(SceneId id, ApplicationContext const& context) noexcept
 {
     switch (id) {
         case SceneId::MENU:
-            return new MenuScene(data);
+            return new MenuScene(context);
         case SceneId::GAME:
-            return new GameScene(data);
+            return new GameScene(context);
         default:
             return nullptr;
     }

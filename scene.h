@@ -4,6 +4,7 @@
 #ifndef NSNAKE_SCENE_H
 #define NSNAKE_SCENE_H
 
+#include "context.h"
 #include "geometry.h"
 
 namespace nsnake {
@@ -14,19 +15,10 @@ enum class SceneId {
     GAME
 };
 
-struct SceneData {
-    V2i window_extent = {0, 0};
-
-    V2i window_center() const
-    {
-        return static_cast<V2i>(window_extent / 2);
-    }
-};
-
 class Scene {
 public:
-    explicit Scene(SceneData const * data)
-            : data{data}
+    explicit Scene(ApplicationContext const& context)
+        : context{context}
     {}
 
     virtual ~Scene() = default;
@@ -37,10 +29,10 @@ public:
     const SceneId id = SceneId::NONE;
 
 protected:
-    const SceneData * data;
+    const ApplicationContext& context;
 };
 
-Scene * new_scene(SceneId id, SceneData const * data) noexcept;
+Scene* new_scene(SceneId id, ApplicationContext const& context) noexcept;
 
 }// namespace nsnake
 

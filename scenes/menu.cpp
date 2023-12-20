@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
 #include "menu.h"
-#include "utils.h"
+#include "io.h"
 
 namespace nsnake {
 
-MenuScene::MenuScene(SceneData const * data)
-    : Scene(data)
+MenuScene::MenuScene(ApplicationContext const& context)
+    : Scene(context)
 {}
 
 void MenuScene::draw()
 {
-    addstr_center("Press RETURN to begin", data);
+    addstr_center("Press RETURN to begin", context);
 }
 
 SceneId MenuScene::process_event(int ch)

@@ -16,10 +16,10 @@ public:
     void start();
 
 private:
+    ApplicationContext context;
     Scene * scene;
-    SceneData scene_data;
 
-    void update_scene_data();
+    void update_context();
 };
 
 }// namespace nsnake

@@ -6,7 +6,6 @@
 #include <curses.h>
 
 #include "application.h"
-#include "scenes/menu.h"
 
 namespace nsnake {
 
@@ -26,10 +25,10 @@ Application::Application()
     nodelay(stdscr, TRUE); // Disable blocking on input
 
     // Initial scene
-    scene = dynamic_cast<Scene *>(new MenuScene(&scene_data));
+    scene = new_scene(SceneId::MENU, context);
     if (scene == nullptr)
         throw std::runtime_error("Failed to create initial scene");
-    update_scene_data();
+    update_context();
 }
 
 void Application::start()
@@ -44,7 +43,7 @@ void Application::start()
         auto ch = getch(); // Get input and refresh
         switch (ch) {
             case KEY_RESIZE:
-                update_scene_data(); // Refresh limiting parameters for scene geometry
+                update_context();// Refresh limiting parameters for scene geometry
                 erase(); // Redraw before next iteration
                 break;
 
@@ -67,7 +66,7 @@ void Application::start()
                     // New scene:
                     // Clear graphics drawn by the current scene and create the new scene from the returned ID.
                     erase();
-                    scene = new_scene(new_id, &scene_data);
+                    scene = new_scene(new_id, context);
                     if (scene == nullptr)
                         throw std::runtime_error("Invalid scene");
                 }
@@ -76,9 +75,9 @@ void Application::start()
     } while (!done);
 }
 
-void Application::update_scene_data()
+void Application::update_context()
 {
-    scene_data.window_extent = get_extent(stdscr);
+    context.window_extent = get_extent(stdscr);
 }
 
 Application::~Application()

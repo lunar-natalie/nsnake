@@ -5,8 +5,8 @@
 
 namespace nsnake {
 
-GameScene::GameScene(const SceneData * data)
-    : Scene(data)
+GameScene::GameScene(ApplicationContext const& context)
+    : Scene(context)
 {}
 
 void GameScene::draw()
@@ -15,6 +15,20 @@ void GameScene::draw()
 
 SceneId GameScene::process_event(int ch)
 {
+    //    switch (ch) {
+    //        case KEY_RIGHT:
+    //            player.vel.x = 1;
+    //            break;
+    //        case KEY_LEFT:
+    //            player.vel.x = -1;
+    //            break;
+    //        case KEY_UP:
+    //            player.vel.y = 1;
+    //            break;
+    //        case KEY_DOWN:
+    //            player.vel.y = -1;
+    //            break;
+    //    }
     return id;
 }
 

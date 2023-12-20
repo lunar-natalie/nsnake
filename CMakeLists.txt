@@ -14,10 +14,11 @@ add_executable(nSnake main.cpp
         scenes/menu.cpp
         scenes/menu.h
         scene.cpp
-        utils.h
-        utils.cpp
+        io.h
+        io.cpp
         scenes/game.cpp
         scenes/game.h
+        context.h
 )
 target_include_directories(nSnake
         PRIVATE ${CMAKE_SOURCE_DIR} ${CURSES_INCLUDE_DIRS})
