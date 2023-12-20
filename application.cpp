@@ -43,7 +43,7 @@ void Application::start()
         auto ch = getch(); // Get input and refresh
         switch (ch) {
             case KEY_RESIZE:
-                update_context();// Refresh limiting parameters for scene geometry
+                update_context(); // Refresh limiting parameters for scene geometry
                 erase(); // Redraw before next iteration
                 break;
 
