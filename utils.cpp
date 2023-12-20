@@ -16,4 +16,4 @@ int addstr_center(const char * str, SceneData const * scene_data) noexcept
     return mvaddstr(pos.y, pos.x, str);
 }
 
-} // nsnake
+}// namespace nsnake

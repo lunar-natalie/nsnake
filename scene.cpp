@@ -19,4 +19,4 @@ Scene * new_scene(SceneId id, SceneData const * data) noexcept
     }
 }
 
-} // nsnake
+}// namespace nsnake

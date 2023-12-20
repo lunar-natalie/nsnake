@@ -37,6 +37,6 @@ protected:
 
 Scene * new_scene(SceneId id, SceneData const * data) noexcept;
 
-} // nsnake
+}// namespace nsnake
 
 #endif //NSNAKE_SCENE_H

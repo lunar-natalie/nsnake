@@ -10,6 +10,6 @@ namespace nsnake {
 
 int addstr_center(const char * str, SceneData const * scene_data) noexcept;
 
-} // nsnake
+}// namespace nsnake
 
 #endif //NSNAKE_UTILS_H

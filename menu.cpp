@@ -21,4 +21,4 @@ SceneId MenuScene::process_event(int ch)
     return id;
 }
 
-} // nsnake
+}// namespace nsnake

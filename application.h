@@ -22,6 +22,6 @@ private:
     void update_scene_data();
 };
 
-} // nsnake
+}// namespace nsnake
 
 #endif //NSNAKE_APPLICATION_H

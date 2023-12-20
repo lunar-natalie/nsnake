@@ -20,6 +20,6 @@ public:
     const SceneId id = SceneId::MENU;
 };
 
-} // nsnake
+}// namespace nsnake
 
 #endif //NSNAKE_MENU_H

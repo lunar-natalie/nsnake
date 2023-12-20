@@ -48,6 +48,6 @@ inline V2d operator/(V2i const & dividend, int divisor)
     return operator/(dividend, {.y = divisor, .x = divisor});
 }
 
-} // nsnake
+}// namespace nsnake
 
 #endif //NSNAKE_GEOMETRY_H

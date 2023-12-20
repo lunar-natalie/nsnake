@@ -91,4 +91,4 @@ Application::~Application()
     endwin();
 }
 
-} // nsnake
+}// namespace nsnake

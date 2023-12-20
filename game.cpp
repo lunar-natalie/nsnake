@@ -14,4 +14,4 @@ SceneId GameScene::process_event(int ch)
     return id;
 }
 
-} // nsnake
+}// namespace nsnake
