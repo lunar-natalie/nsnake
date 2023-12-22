@@ -7,18 +7,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Curses REQUIRED)
 
 add_executable(nSnake main.cpp
-        application.cpp
         application.h
+        context.h
         geometry.h
         scene.h
-        scenes/menu.cpp
-        scenes/menu.h
-        scene.cpp
-        io.h
-        io.cpp
-        scenes/game.cpp
         scenes/game.h
-        context.h
+        scenes/menu.h
+        utils.h
 )
 target_include_directories(nSnake
         PRIVATE ${CMAKE_SOURCE_DIR} ${CURSES_INCLUDE_DIRS})

@@ -10,12 +10,19 @@ namespace nsnake {
 
 class GameScene : public Scene {
 public:
-    explicit GameScene(ApplicationContext const& context);
+    explicit GameScene(ApplicationContext const& context)
+        : Scene(context)
+    {}
 
-    void draw() override;
-    SceneId process_event(int ch) override;
+    void draw() override
+    {}
 
-    const SceneId id = SceneId::GAME;
+    SceneID process_event(int ch) override
+    {
+        return id;
+    }
+
+    const SceneID id = SceneID::GAME;
 };
 
 }// namespace nsnake

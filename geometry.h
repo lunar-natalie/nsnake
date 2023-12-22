@@ -13,7 +13,7 @@ struct Vec2 {
     T y, x;
 
     template<typename U>
-    Vec2<T> & operator/=(U divisor)
+    Vec2<T>& operator/=(U divisor)
     {
         auto quotient = static_cast<Vec2<T>>(*this / divisor);
         this->y = quotient.y;
@@ -27,23 +27,18 @@ struct Vec2 {
     }
 };
 
-typedef Vec2<int> V2i;
-typedef Vec2<double> V2d;
-typedef Vec2<float> V2f;
+typedef Vec2<int> v2i;
+typedef Vec2<double> v2d;
+typedef Vec2<float> v2f;
 
-inline V2i get_extent(WINDOW * const win)
-{
-    return {.y = getmaxy(win), .x = getmaxx(win)};
-}
-
-// Non-uniform division.
-inline V2d operator/(V2i const & dividend, V2i const & divisor)
+// Non-uniform
+inline v2d operator/(v2i const& dividend, v2i const& divisor)
 {
     return {.y = dividend.y / static_cast<double>(divisor.y), .x = dividend.x / static_cast<double>(divisor.x)};
 }
 
-// Uniform division.
-inline V2d operator/(V2i const & dividend, int divisor)
+// Uniform
+inline v2d operator/(v2i const& dividend, int divisor)
 {
     return operator/(dividend, {.y = divisor, .x = divisor});
 }

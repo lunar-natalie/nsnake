@@ -5,17 +5,30 @@
 #define NSNAKE_SCENES_MENU_H
 
 #include "scene.h"
+#include "utils.h"
 
 namespace nsnake {
 
 class MenuScene : public Scene {
 public:
-    explicit MenuScene(ApplicationContext const& context);
+    explicit MenuScene(ApplicationContext const& context)
+        : Scene(context)
+    {}
 
-    void draw() override;
-    SceneId process_event(int ch) override;
+    void draw() override
+    {
+        addstr_center("Press RETURN to begin", context);
+    }
 
-    const SceneId id = SceneId::MENU;
+    SceneID process_event(int ch) override
+    {
+        if (ch == '\r') {
+            return SceneID::GAME;
+        }
+        return id;
+    }
+
+    const SceneID id = SceneID::MENU;
 };
 
 }// namespace nsnake

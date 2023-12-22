@@ -5,11 +5,10 @@
 #define NSNAKE_SCENE_H
 
 #include "context.h"
-#include "geometry.h"
 
 namespace nsnake {
 
-enum class SceneId {
+enum class SceneID {
     NONE,
     MENU,
     GAME
@@ -24,15 +23,13 @@ public:
     virtual ~Scene() = default;
 
     virtual void draw() = 0;
-    virtual SceneId process_event(int ch) = 0;
+    virtual SceneID process_event(int ch) = 0;
 
-    const SceneId id = SceneId::NONE;
+    const SceneID id = SceneID::NONE;
 
 protected:
     const ApplicationContext& context;
 };
-
-Scene* new_scene(SceneId id, ApplicationContext const& context);
 
 }// namespace nsnake
 

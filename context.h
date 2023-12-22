@@ -9,11 +9,8 @@
 namespace nsnake {
 
 struct ApplicationContext {
-    V2i window_extent = {0, 0};
-    V2i window_center() const
-    {
-        return static_cast<V2i>(window_extent / 2);
-    }
+    v2i window_extent = {0, 0};
+    v2i window_center() const { return static_cast<v2i>(window_extent / 2); }
 };
 
 }//namespace nsnake
