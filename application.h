@@ -4,20 +4,22 @@
 #ifndef NSNAKE_APPLICATION_H
 #define NSNAKE_APPLICATION_H
 
+#include <memory>
 #include <stdexcept>
 
 #include <curses.h>
 
-#include "context.h"
-#include "scene.h"
-#include "scenes/game.h"
+#include "app/context.h"
+#include "app/scene.h"
+#include "app/scene_map.h"
 #include "scenes/menu.h"
+#include "utils/window.h"
 
 namespace nsnake {
 
 class Application {
     ApplicationContext context;
-    Scene* scene;
+    std::unique_ptr<Scene> scene;
 
 public:
     Application()
@@ -36,7 +38,7 @@ public:
         nodelay(stdscr, TRUE); // Disable blocking on input
 
         // Setup initial scene
-        scene = new MenuScene(context);
+        scene = std::make_unique<MenuScene>(context);
         update_context();
     }
 
@@ -72,7 +74,7 @@ public:
                     else {
                         // Clear graphics drawn by the current scene and create the new scene from the returned ID.
                         erase();
-                        scene = new_scene(new_id);
+                        scene = scene_map.at(new_id)(context);
                         if (scene == nullptr)
                             throw std::runtime_error("Invalid scene");
                     }
@@ -85,18 +87,6 @@ private:
     void update_context()
     {
         context.window_extent = get_extent(stdscr);
-    }
-
-    Scene* new_scene(SceneID id)
-    {
-        switch (id) {
-            case SceneID::MENU:
-                return new MenuScene(context);
-            case SceneID::GAME:
-                return new GameScene(context);
-            default:
-                return nullptr;
-        }
     }
 
 public:

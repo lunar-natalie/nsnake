@@ -4,15 +4,18 @@
 #ifndef NSNAKE_SCENES_GAME_H
 #define NSNAKE_SCENES_GAME_H
 
-#include "scene.h"
+#include <memory>
+
+#include "app/scene.h"
 
 namespace nsnake {
 
 class GameScene : public Scene {
 public:
     explicit GameScene(ApplicationContext const& context)
-        : Scene(context)
-    {}
+        : Scene(context, SceneID::GAME)
+    {
+    }
 
     void draw() override
     {}
@@ -21,8 +24,6 @@ public:
     {
         return id;
     }
-
-    const SceneID id = SceneID::GAME;
 };
 
 }// namespace nsnake

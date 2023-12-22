@@ -4,15 +4,15 @@
 #ifndef NSNAKE_SCENES_MENU_H
 #define NSNAKE_SCENES_MENU_H
 
-#include "scene.h"
-#include "utils.h"
+#include "app/scene.h"
+#include "utils/io.h"
 
 namespace nsnake {
 
 class MenuScene : public Scene {
 public:
     explicit MenuScene(ApplicationContext const& context)
-        : Scene(context)
+        : Scene(context, SceneID::MENU)
     {}
 
     void draw() override
@@ -27,8 +27,6 @@ public:
         }
         return id;
     }
-
-    const SceneID id = SceneID::MENU;
 };
 
 }// namespace nsnake

@@ -1,8 +1,8 @@
 // Copyright (c) 2023 Natalie Wiggins. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
-#ifndef NSNAKE_GEOMETRY_H
-#define NSNAKE_GEOMETRY_H
+#ifndef NSNAKE_UTILS_GEOMETRY_H
+#define NSNAKE_UTILS_GEOMETRY_H
 
 #include <curses.h>
 
@@ -45,4 +45,4 @@ inline v2d operator/(v2i const& dividend, int divisor)
 
 }// namespace nsnake
 
-#endif //NSNAKE_GEOMETRY_H
+#endif //NSNAKE_UTILS_GEOMETRY_H
