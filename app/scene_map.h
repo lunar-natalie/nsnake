@@ -4,6 +4,7 @@
 #ifndef NSNAKE_APP_SCENE_MAP_H
 #define NSNAKE_APP_SCENE_MAP_H
 
+#include <functional>
 #include <map>
 #include <memory>
 
