@@ -12,6 +12,6 @@ Text-based console Snake clone for *nix systems, using a modern C++ project desi
 
 - CMake >= 3.27
 - C++23 toolchain
-    - Clang >= 16
-    - GCC >= 12
-    - AppleClang >= 15
+  - Clang >= 16
+  - GCC >= 12
+  - AppleClang >= 14
