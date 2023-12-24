@@ -2,9 +2,9 @@ name: CMake
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -15,8 +15,19 @@ jobs:
       fail-fast: false
 
       matrix:
-        os: [ ubuntu-22.04, macos-12, windows-2022 ]
-        build_type: [ Release ]
+        os: [ubuntu-22.04, macos-12]
+        build_type: [Release]
+        c_compiler: [clang, gcc]
+        include:
+          - os: ubuntu-22.04
+            c_compiler: clang
+            cpp_compiler: clang++
+          - os: ubuntu-22.04
+            c_compiler: gcc
+            cpp_compiler: g++
+          - os: macos-12
+            c_compiler: clang
+            cpp_compiler: clang++
 
     steps:
       - uses: actions/checkout@v3
