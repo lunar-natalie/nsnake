@@ -31,6 +31,10 @@ jobs:
         exclude:
           - os: ubuntu-22.04
             c_compiler: clang
+          - os: macos-13
+            c_compiler: clang-16
+          - os: macos-13
+            c_compiler: gcc-12
 
     steps:
       - uses: actions/checkout@v3
