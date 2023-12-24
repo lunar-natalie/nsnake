@@ -2,7 +2,7 @@
 
 # nSnake
 
-Text-based console Snake clone for *nix systems, using a modern C++23 project stack.
+Text-based console Snake clone for *nix systems, using a modern C++20 project stack.
 
 ## Requirements
 
@@ -11,4 +11,4 @@ Text-based console Snake clone for *nix systems, using a modern C++23 project st
 ## Build requirements
 
 - CMake >= 3.27
-- C++17 toolchain (Clang >= 14, GCC >= 11.4.0)
+- C++20 toolchain
