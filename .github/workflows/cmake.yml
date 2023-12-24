@@ -15,9 +15,8 @@ jobs:
       fail-fast: false
 
       matrix:
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-22.04, macos-12, windows-2022 ]
         build_type: [ Release ]
-        c_compiler: [ gcc, clang ]
 
     steps:
       - uses: actions/checkout@v3
