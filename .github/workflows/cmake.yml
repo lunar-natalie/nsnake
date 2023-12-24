@@ -31,7 +31,13 @@ jobs:
 
       - name: Setup dependencies
         run: |
-          sudo apt-get install -y gcc-12 llvm-16 clang-16
+          wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - && \
+          sudo add-apt-repository 'deb http://apt.llvm.org/${RELEASE_NAME}/ llvm-toolchain-${RELEASE_NAME}-${LLVM_VERSION} main' &&
+          sudo add-apt-repository 'deb-src http://apt.llvm.org/${RELEASE_NAME}/ llvm-toolchain-${RELEASE_NAME}-${LLVM_VERSION} main' && \
+          sudo apt-get install -y gcc-12 llvm-${LLVM_VERSION} clang-${LLVM_VERSION}
+        env:
+          RELEASE_NAME: jammy
+          LLVM_VERSION: 16
 
       - name: Set reusable strings
         # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
