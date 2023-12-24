@@ -8,6 +8,8 @@
 namespace nsnake {
     struct Player {
         V2i headPosition;
+        V2i tailPosition;
+        V2f maxSpeed;
         V2f velocity;
         int length;
     };

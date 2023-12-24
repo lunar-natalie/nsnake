@@ -11,8 +11,8 @@ namespace nsnake {
     enum class TileState {
         EMPTY = 0,
         PLAYER_HEAD,
-        PLAYER_BODY,
         PLAYER_TAIL,
+        PLAYER_BODY,
         FOOD
     };
 

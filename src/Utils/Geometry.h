@@ -11,10 +11,18 @@ namespace nsnake {
         T x, y;
 
         template<typename U>
-        constexpr Vec2<T> &operator/=(U rhs) {
-            auto quotient = static_cast<Vec2<T>>(*this / rhs);
-            this->x = quotient.x;
-            this->y = quotient.y;
+        constexpr Vec2<T> &operator+=(U rhs) {
+            auto result = static_cast<Vec2<T>>(*this + rhs);
+            this->x = result.x;
+            this->y = result.y;
+            return *this;
+        }
+
+        template<typename U>
+        constexpr Vec2<T> &operator-=(U rhs) {
+            auto result = static_cast<Vec2<T>>(*this - rhs);
+            this->x = result.x;
+            this->y = result.y;
             return *this;
         }
 
@@ -23,6 +31,14 @@ namespace nsnake {
             auto result = static_cast<Vec2<T>>(*this * rhs);
             this->x = result.x;
             this->y = result.y;
+            return *this;
+        }
+
+        template<typename U>
+        constexpr Vec2<T> &operator/=(U rhs) {
+            auto quotient = static_cast<Vec2<T>>(*this / rhs);
+            this->x = quotient.x;
+            this->y = quotient.y;
             return *this;
         }
 
