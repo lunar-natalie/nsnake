@@ -34,6 +34,7 @@ jobs:
           wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - && \
           sudo add-apt-repository 'deb ${{ env.LLVM_REPO }} ${{ env.LLVM_REPO_TOOLCHAIN }} main' &&
           sudo add-apt-repository 'deb-src ${{ env.LLVM_REPO }} ${{ env.LLVM_REPO_TOOLCHAIN }} main' && \
+          sudo apt-get update && \
           sudo apt-get install -y gcc-${{ env.GCC_VERSION }} llvm-${LLVM_VERSION} clang-${LLVM_VERSION}
         env:
           GCC_VERSION: 12
