@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: ["main"]
 
+env:
+  LLVM_VERSION: 15
+  GCC_VERSION: 12
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -15,22 +19,23 @@ jobs:
       fail-fast: false
 
       matrix:
-        os: [ubuntu-22.04, macos-12]
+        os: [ubuntu-22.04]
         build_type: [Release]
         c_compiler: [clang, gcc]
         include:
           - os: ubuntu-22.04
-            c_compiler: clang
-            cpp_compiler: clang++
+            c_compiler: clang-${{ env.LLVM_VERSION }}
+            cpp_compiler: clang++-${{ env.LLVM_VERSION }}
           - os: ubuntu-22.04
-            c_compiler: gcc
-            cpp_compiler: g++
-          - os: macos-12
-            c_compiler: clang
-            cpp_compiler: clang++
+            c_compiler: gcc-${{ env.GCC_VERSION }}
+            cpp_compiler: g++-${{ env.GCC_VERSION }}
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup dependencies
+        run: |
+          sudo apt-get install -y gcc-${{ env.GCC_VERSION }} llvm-${{ env.LLVM_VERSION }} clang-${{ env.LLVM_VERSION }}
 
       - name: Set reusable strings
         # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
