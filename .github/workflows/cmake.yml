@@ -17,11 +17,10 @@ jobs:
       matrix:
         os: [ubuntu-22.04]
         build_type: [Release]
-        c_compiler: [clang-15, gcc-12]
         include:
           - os: ubuntu-22.04
-            c_compiler: clang-15
-            cpp_compiler: clang++-15
+            c_compiler: clang-16
+            cpp_compiler: clang++-16
           - os: ubuntu-22.04
             c_compiler: gcc-12
             cpp_compiler: g++-12
@@ -31,7 +30,7 @@ jobs:
 
       - name: Setup dependencies
         run: |
-          sudo apt-get install -y gcc-12 llvm-15 clang-15
+          sudo apt-get install -y gcc-12 llvm-16 clang-16
 
       - name: Set reusable strings
         # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
