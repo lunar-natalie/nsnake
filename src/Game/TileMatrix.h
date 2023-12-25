@@ -26,14 +26,12 @@ namespace nsnake {
     public:
         TileMatrix() = default;
 
-        explicit TileMatrix(V2i dimensions)
-            : m_dimensions{dimensions} {
+        explicit TileMatrix(V2i dimensions) : m_dimensions{dimensions} {
             // Initialize 2D state vector to 0 (TileState::EMPTY) with the specified dimensions
             m_data = std::vector(dimensions.x, std::vector<TileState>(dimensions.y));
         }
 
         constexpr void reset() {
-            // Fill with TileState::EMPTY
             std::fill(m_data.begin(), m_data.end(), std::vector<TileState>(m_dimensions.x, TileState::EMPTY));
         }
 
