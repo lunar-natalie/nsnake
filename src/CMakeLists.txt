@@ -5,10 +5,12 @@ add_executable(nSnake main.cpp
         Application.h
         Game/Entities.h
         Game/TileMatrix.h
+        Game/Time.h
         Scenes/Game.h
         Scenes/Menu.h
         Utils/Geometry.h
         Utils/IO.h
+        Utils/Random.h
         Utils/Window.h
 )
 target_include_directories(nSnake
