@@ -40,18 +40,6 @@ namespace nsnake {
             updateContext();
         }
 
-    private:
-        void updateContext() {
-            m_appContext.windowExtent = getExtent(stdscr);
-            m_drawingContext = createDrawingContext();
-        }
-
-        [[nodiscard]] constexpr DrawingContext createDrawingContext() const {
-            auto border = V2i::make_uniform(ApplicationContext::borderWidth);
-            return {.extent = m_appContext.windowExtent - (2 * border), .offset = border};
-        }
-
-    public:
         void start() {
             auto done = false;
             do {
@@ -93,7 +81,6 @@ namespace nsnake {
             } while (!done);
         }
 
-    public:
         ~Application() {
             // Clear screen
             erase();
@@ -101,6 +88,17 @@ namespace nsnake {
 
             // De-initialize curses
             endwin();
+        }
+
+    private:
+        void updateContext() {
+            m_appContext.windowExtent = getExtent(stdscr);
+            m_drawingContext = createDrawingContext();
+        }
+
+        [[nodiscard]] DrawingContext createDrawingContext() const {
+            auto border = V2i::make_uniform(ApplicationContext::borderWidth);
+            return {.extent = m_appContext.windowExtent - (2 * border), .offset = border};
         }
     };
 }// namespace nsnake
