@@ -7,9 +7,9 @@
 
 namespace nsnake {
     struct Player {
-        int length;
-        V2f speed;
-        V2f velocity;
         V2i position;
+        V2f velocity;
+        V2f speed;
+        int length;
     };
 }// namespace nsnake
