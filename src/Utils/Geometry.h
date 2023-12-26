@@ -104,7 +104,11 @@ namespace nsnake {
         return operator/(lhs, Vec2<U>::make_uniform(rhs));
     }
     template<typename T, typename U>
-    inline constexpr auto operator*(T lhs, const Vec2<U> &rhs) { return operator*(rhs, lhs); }
+    inline constexpr auto operator*(T lhs, const Vec2<U> &rhs) {
+        return operator*(rhs, lhs);
+    }
     template<typename T, typename U>
-    inline constexpr auto operator/(T lhs, const Vec2<U> &rhs) { return operator/(rhs, lhs); }
+    inline constexpr auto operator/(T lhs, const Vec2<U> &rhs) {
+        return operator/(rhs, lhs);
+    }
 }// namespace nsnake
