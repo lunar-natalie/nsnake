@@ -104,7 +104,7 @@ namespace nsnake {
         }
 
     private:
-        constexpr void updateTileStates() {
+        void updateTileStates() {
             // Player
             m_tileMatrix->stateAt(m_player.position) = TileState::PLAYER_HEAD;
             // Food
@@ -112,7 +112,7 @@ namespace nsnake {
                 m_tileMatrix->stateAt(pos) = TileState::FOOD;
         }
 
-        constexpr void updateEntityStates() {
+        void updateEntityStates() {
             // Check food collision
             auto foodItr = std::find(m_foodPositions.begin(), m_foodPositions.end(), m_player.position);
             if (foodItr != m_foodPositions.end()) {
@@ -125,7 +125,7 @@ namespace nsnake {
             m_player.position += static_cast<V2i>(m_player.velocity);
         }
 
-        constexpr V2i getRandomFoodPosition() {
+        [[nodiscard]] V2i getRandomFoodPosition() const {
             V2i pos = {m_random->dist(1, m_context.extent.x - 1),
                        m_random->dist(1, m_context.extent.y - 1)};
             if (pos.x == m_player.position.x)
