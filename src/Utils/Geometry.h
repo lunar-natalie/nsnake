@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <curses.h>
-
 namespace nsnake {
     template<typename T>
     struct Vec2;
@@ -57,11 +55,27 @@ namespace nsnake {
     // Comparison
     template<typename T>
     inline constexpr bool operator==(const Vec2<T> &lhs, const Vec2<T> &rhs) {
-        return lhs.x == rhs.x && lhs.y == rhs.y;
+        return (lhs.x == rhs.x) && (lhs.y == rhs.y);
     }
     template<typename T>
     inline constexpr bool operator!=(const Vec2<T> &lhs, const Vec2<T> &rhs) {
         return !(lhs == rhs);
+    }
+    template<typename T>
+    inline constexpr bool operator>(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+        return (lhs.x > rhs.x) && (lhs.y > rhs.y);
+    }
+    template<typename T>
+    inline constexpr bool operator<(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+        return (lhs.x < rhs.x) || (lhs.y < rhs.y);
+    }
+    template<typename T>
+    inline constexpr bool operator>=(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+        return (lhs > rhs) || (lhs == rhs);
+    }
+    template<typename T>
+    inline constexpr bool operator<=(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+        return (lhs < rhs) || (lhs == rhs);
     }
     // Non-uniform arithmetic
     template<typename T>
