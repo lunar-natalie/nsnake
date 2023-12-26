@@ -4,6 +4,7 @@
 #pragma once
 
 #include <memory>
+#include <stdexcept>
 #include <vector>
 
 #include "App/Scene.h"
