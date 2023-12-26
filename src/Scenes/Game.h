@@ -3,54 +3,46 @@
 
 #pragma once
 
-#include <chrono>
 #include <memory>
+#include <vector>
 
 #include "App/Scene.h"
 #include "Game/Entities.h"
 #include "Game/TileMatrix.h"
+#include "Game/Time.h"
 #include "Utils/IO.h"
-
-namespace chrono = std::chrono;
-using namespace std::chrono_literals;
+#include "Utils/Random.h"
 
 namespace nsnake {
     class GameScene : public Scene {
-        using Clock = chrono::steady_clock;
-
-        constexpr static int TARGET_FRAMERATE = 24;
-
-        using FrameDuration = chrono::duration<double, std::ratio<1, TARGET_FRAMERATE>>;
-        constexpr static auto ONE_FRAME = FrameDuration(1s);
-
-        std::unique_ptr<TileMatrix> m_tileMatrix;
         std::unique_ptr<Clock> m_clock;
         Clock::time_point m_time;
+        std::unique_ptr<IntGenerator> m_random;
+
+        std::unique_ptr<TileMatrix> m_tileMatrix;
         Player m_player{};
+        std::vector<V2i> m_foodPositions{};
 
     public:
-        explicit GameScene(const DrawingContext &context)
-            : Scene(context, SceneID::GAME) {
-            m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
+        explicit GameScene(const DrawingContext &context) : Scene(context, SceneID::GAME) {
+            if (context.extent < V2i::make_uniform(20))
+                throw std::runtime_error("Invalid window size");
 
             m_clock = std::make_unique<Clock>();
             m_time = m_clock->now();
+            m_random = std::make_unique<IntGenerator>();
 
-            m_player.headPosition = m_tileMatrix->getCenter();
-            m_player.maxSpeed = {2.0f, 1.0f};
-            m_player.velocity = {0, -m_player.maxSpeed.y};
-            m_player.length = 3;
+            m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
+
+            m_player.length = 1;
+            m_player.speed = V2f::make_uniform(1.0f);
+            m_player.velocity = {0.0f, -m_player.speed.y};
+            m_player.position = m_tileMatrix->getCenter();
+
+            for (auto i = 0; i < 20; ++i)
+                m_foodPositions.push_back(getRandomFoodPosition());
 
             updateTileStates();
-        }
-
-    private:
-        constexpr void updateTileStates() {
-            m_tileMatrix->stateAt(m_player.headPosition) = TileState::PLAYER_HEAD;
-        }
-
-        constexpr void updateEntityStates() {
-            m_player.headPosition += static_cast<V2i>(m_player.velocity);
         }
 
     public:
@@ -90,24 +82,57 @@ namespace nsnake {
             }
         }
 
+    public:
         SceneID processEvent(int ch) override {
             switch (ch) {
                 case KEY_RIGHT:
-                    m_player.velocity = {m_player.maxSpeed.x, 0.0f};
+                    m_player.velocity = {m_player.speed.x, 0.0f};
                     break;
                 case KEY_LEFT:
-                    m_player.velocity = {-m_player.maxSpeed.x, 0.0f};
+                    m_player.velocity = {-m_player.speed.x, 0.0f};
                     break;
                 case KEY_DOWN:
-                    m_player.velocity = {0.0f, m_player.maxSpeed.y};
+                    m_player.velocity = {0.0f, m_player.speed.y};
                     break;
                 case KEY_UP:
-                    m_player.velocity = {0.0f, -m_player.maxSpeed.y};
+                    m_player.velocity = {0.0f, -m_player.speed.y};
                     break;
                 default:
                     break;
             }
             return m_id;
+        }
+
+    private:
+        constexpr void updateTileStates() {
+            // Player
+            m_tileMatrix->stateAt(m_player.position) = TileState::PLAYER_HEAD;
+            // Food
+            for (auto &pos: m_foodPositions)
+                m_tileMatrix->stateAt(pos) = TileState::FOOD;
+        }
+
+        constexpr void updateEntityStates() {
+            // Check food collision
+            auto foodItr = std::find(m_foodPositions.begin(), m_foodPositions.end(), m_player.position);
+            if (foodItr != m_foodPositions.end()) {
+                // Eat
+                ++m_player.length;
+                *foodItr = getRandomFoodPosition();
+            }
+
+            // Move player
+            m_player.position += static_cast<V2i>(m_player.velocity);
+        }
+
+        constexpr V2i getRandomFoodPosition() {
+            V2i pos = {m_random->dist(1, m_context.extent.x - 1),
+                       m_random->dist(1, m_context.extent.y - 1)};
+            if (pos.x == m_player.position.x)
+                ++pos.x;
+            if (pos.y == m_player.position.y)
+                ++pos.y;
+            return pos;
         }
     };
 }// namespace nsnake
