@@ -45,7 +45,6 @@ namespace nsnake {
             updateTileStates();
         }
 
-    public:
         void update() override {
             // Draw tiles
             m_tileMatrix->iterate({[&](auto &pos, auto &state) {
@@ -82,7 +81,6 @@ namespace nsnake {
             }
         }
 
-    public:
         SceneID processEvent(int ch) override {
             switch (ch) {
                 case KEY_RIGHT:
