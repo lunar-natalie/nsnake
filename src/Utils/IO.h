@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <cstring>
-
 #include <curses.h>
 
 #include "App/Context.h"

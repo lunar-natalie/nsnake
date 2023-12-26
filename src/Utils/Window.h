@@ -5,7 +5,7 @@
 
 #include <curses.h>
 
-#include "Geometry.h"
+#include "Utils/Geometry.h"
 
 namespace nsnake {
     inline V2i getExtent(const WINDOW *window) {

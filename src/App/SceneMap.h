@@ -7,7 +7,7 @@
 #include <map>
 #include <memory>
 
-#include "Scene.h"
+#include "App/Scene.h"
 #include "Scenes/Game.h"
 #include "Scenes/Menu.h"
 
