@@ -106,6 +106,7 @@ namespace nsnake {
         void updateTileStates() {
             // Player
             m_tileMatrix->stateAt(m_player.position) = TileState::PLAYER_HEAD;
+
             // Food
             for (auto &pos: m_foodPositions)
                 m_tileMatrix->stateAt(pos) = TileState::FOOD;
