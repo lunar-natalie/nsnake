@@ -21,7 +21,7 @@ namespace nsnake {
         std::unique_ptr<Scene> m_scene;
 
     public:
-        Application() {
+        explicit Application(SceneID initialScene) {
             // Initialize curses
             if (initscr() == nullptr)
                 throw std::runtime_error("Failed to initialize curses screen");
@@ -36,8 +36,8 @@ namespace nsnake {
             nodelay(stdscr, TRUE);   // Disable blocking on input
 
             // Setup initial scene
-            m_scene = std::make_unique<MenuScene>(m_drawingContext);
             updateContext();
+            m_scene = sceneMap.at(initialScene)(m_drawingContext);
         }
 
         void start() {

@@ -9,11 +9,22 @@
 
 using namespace nsnake;
 
-int main() try {
+int main(int argc, char *argv[]) try {
     // Assume ISO-8859-1 character set for curses
     setlocale(LC_ALL, "");
+
+    // Parse arguments
+    SceneID initialScene = SceneID::MENU;
+    if (argc > 1) {
+        if (std::string(argv[1]) == "--no-menu")
+            initialScene = SceneID::GAME;
+    }
+
+    // Create the application
+    Application app(initialScene);
     // Initialize curses and start the main event loop
-    Application().start();
+    app.start();
+
     return 0;
 } catch (std::runtime_error &e) {
     std::cerr << e.what() << std::endl;
