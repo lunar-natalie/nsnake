@@ -14,5 +14,5 @@ namespace nsnake {
     constexpr static int TARGET_FRAMERATE = 24;
 
     using FrameDuration = chrono::duration<double, std::ratio<1, TARGET_FRAMERATE>>;
-    constexpr static auto ONE_FRAME = FrameDuration(1s);
+    constexpr static auto ONE_FRAME = FrameDuration(0.5s);
 }// namespace nsnake
