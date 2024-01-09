@@ -77,6 +77,7 @@ namespace nsnake {
     inline constexpr bool operator<=(const Vec2<T> &lhs, const Vec2<T> &rhs) {
         return (lhs < rhs) || (lhs == rhs);
     }
+
     // Non-uniform arithmetic
     template<typename T>
     inline constexpr Vec2<T> operator+(const Vec2<T> &lhs, const Vec2<T> &rhs) {
@@ -94,6 +95,7 @@ namespace nsnake {
     inline constexpr V2d operator/(const Vec2<T> &lhs, const Vec2<U> &rhs) {
         return {lhs.x / static_cast<double>(rhs.x), lhs.y / static_cast<double>(rhs.y)};
     }
+
     // Uniform arithmetic
     template<typename T, typename U>
     inline constexpr Vec2<T> operator*(const Vec2<T> &lhs, U rhs) {

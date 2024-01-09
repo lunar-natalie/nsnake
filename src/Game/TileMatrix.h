@@ -3,19 +3,21 @@
 
 #pragma once
 
+#include <list>
 #include <vector>
 
 #include "Utils/Geometry.h"
 
 namespace nsnake {
     enum class TileState {
-        EMPTY = 0,
+        EMPTY = 0,// Default value for std::vector
         PLAYER_HEAD,
         PLAYER_TAIL,
         PLAYER_BODY,
         FOOD
     };
 
+    // Iterable 2D vector dividing the screen area into rows and columns of tiles, each storing a TileState.
     class TileMatrix {
         using Columns = std::vector<TileState>;
         using Rows = std::vector<Columns>;

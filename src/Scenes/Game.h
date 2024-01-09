@@ -41,7 +41,7 @@ namespace nsnake {
             m_player.velocity = {0.0f, -m_player.speed.y};
             m_player.positions.push_back(m_tileMatrix->getCenter());
             for (auto i = 1; i < 3; ++i)
-                m_player.positions.push_back({m_player.chead()->x, m_player.chead()->y + i});
+                m_player.positions.push_back({m_player.cHead()->x, m_player.cHead()->y + i});
 
             // Add food
             for (auto i = 0; i < 20; ++i)
@@ -125,9 +125,9 @@ namespace nsnake {
                        m_random->dist(1, m_context.extent.y - 1)};
 
             // Adjust if same as player
-            if (pos.x == m_player.chead()->x)
+            if (pos.x == m_player.cHead()->x)
                 ++pos.x;
-            if (pos.y == m_player.chead()->y)
+            if (pos.y == m_player.cHead()->y)
                 ++pos.y;
 
             return pos;

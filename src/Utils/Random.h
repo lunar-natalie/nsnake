@@ -11,8 +11,7 @@ namespace nsnake {
         std::mt19937 m_gen;     // mersenne_twister_engine
 
     public:
-        IntGenerator() : m_gen(m_rd()) {
-        }
+        IntGenerator() : m_gen(m_rd()) {}
 
         int dist(int begin, int end) {
             return std::uniform_int_distribution<>(begin, end)(m_gen);

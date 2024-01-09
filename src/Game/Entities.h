@@ -12,11 +12,13 @@ namespace nsnake {
         V2f speed;
         V2f velocity;
 
+        // Linked list of positions in the tile matrix, each which hold a portion of the snake, starting from the head
+        // and ending at the tail.
         using PosList = std::list<V2i>;
         PosList positions;
 
         PosList::iterator head() { return positions.begin(); }
-        [[nodiscard]] PosList::const_iterator chead() const {
+        [[nodiscard]] PosList::const_iterator cHead() const {
             return positions.begin();
         }
         PosList::iterator body() { return ++positions.begin(); }
