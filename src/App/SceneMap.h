@@ -12,10 +12,10 @@
 #include "Scenes/Menu.h"
 
 namespace nsnake {
-    // World of scene IDs to class objects
-    const std::map<SceneID, std::function<std::unique_ptr<Scene>(DrawingContext const &context)>> sceneMap = {
-            {SceneID::NONE, [](auto &ctx) { return nullptr; }},
-            {SceneID::MENU, [](auto &ctx) { return std::make_unique<MenuScene>(ctx); }},
-            {SceneID::GAME, [](auto &ctx) { return std::make_unique<GameScene>(ctx); }},
+    // Map of scene IDs to functions returning class instances
+    const std::unordered_map<SceneID, std::function<std::unique_ptr<Scene>(DrawingContext const &context)>> sceneMap = {
+            {SceneID::NONE, [](auto &c) { return nullptr; }},
+            {SceneID::MENU, [](auto &c) { return std::make_unique<MenuScene>(c); }},
+            {SceneID::GAME, [](auto &c) { return std::make_unique<GameScene>(c); }},
     };
 }//namespace nsnake
