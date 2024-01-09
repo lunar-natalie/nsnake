@@ -14,14 +14,14 @@ namespace nsnake {
 
         // Linked list of positions in the tile matrix, each which hold a portion of the snake, starting from the head
         // and ending at the tail.
-        using PosList = std::list<V2i>;
-        PosList positions;
+        using PositionList = std::list<V2i>;
+        PositionList positions;
 
-        PosList::iterator head() { return positions.begin(); }
-        [[nodiscard]] PosList::const_iterator cHead() const {
+        PositionList::iterator head() { return positions.begin(); }
+        [[nodiscard]] PositionList::const_iterator cHead() const {
             return positions.begin();
         }
-        PosList::iterator body() { return ++positions.begin(); }
-        PosList::iterator tail() { return positions.end(); }
+        PositionList::iterator body() { return ++positions.begin(); }
+        PositionList::iterator tail() { return positions.end(); }
     };
 }// namespace nsnake
