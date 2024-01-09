@@ -1,4 +1,4 @@
-// Copyright (c) 2023 Natalie Wiggins. All rights reserved.
+// Copyright (c) 2024 Natalie Wiggins. All rights reserved.
 // SPDX-License-Identifier: BSD-3-Clause
 
 #include <clocale>
