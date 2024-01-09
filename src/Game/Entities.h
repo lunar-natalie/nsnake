@@ -3,13 +3,23 @@
 
 #pragma once
 
+#include <list>
+
 #include "Utils/Geometry.h"
 
 namespace nsnake {
     struct Player {
-        V2i position;
-        V2f velocity;
         V2f speed;
-        int length;
+        V2f velocity;
+
+        using PosList = std::list<V2i>;
+        PosList positions;
+
+        PosList::iterator head() { return positions.begin(); }
+        [[nodiscard]] PosList::const_iterator chead() const {
+            return positions.begin();
+        }
+        PosList::iterator body() { return ++positions.begin(); }
+        PosList::iterator tail() { return positions.end(); }
     };
 }// namespace nsnake

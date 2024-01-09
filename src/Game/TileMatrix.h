@@ -43,6 +43,10 @@ namespace nsnake {
             return m_data[position.x][position.y];
         }
 
+        [[nodiscard]] TileState &stateAt(std::list<V2i>::iterator positionItr) {
+            return m_data[positionItr->x][positionItr->y];
+        }
+
         constexpr void iterate(const std::function<void(const V2i &position, const TileState &state)> &callback) {
             Rows::iterator rowItr;
             Columns::iterator colItr;

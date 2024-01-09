@@ -6,7 +6,7 @@
 #include "App/Context.h"
 
 namespace nsnake {
-    enum SceneID {
+    enum class SceneID {
         NONE,
         MENU,
         GAME

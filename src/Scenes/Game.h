@@ -9,6 +9,7 @@
 
 #include "App/Scene.h"
 #include "Game/Entities.h"
+#include "Game/TileData.h"
 #include "Game/TileMatrix.h"
 #include "Game/Time.h"
 #include "Utils/IO.h"
@@ -26,20 +27,23 @@ namespace nsnake {
 
     public:
         explicit GameScene(const DrawingContext &context) : Scene(context, SceneID::GAME) {
-            if (context.extent < V2i::make_uniform(20))
+            if (context.extent < V2i::make_uniform(1))
                 throw std::runtime_error("Invalid window size");
 
+            // Utils
             m_clock = std::make_unique<Clock>();
             m_time = m_clock->now();
             m_random = std::make_unique<IntGenerator>();
-
             m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
 
-            m_player.length = 1;
+            // Player
             m_player.speed = V2f::make_uniform(1.0f);
             m_player.velocity = {0.0f, -m_player.speed.y};
-            m_player.position = m_tileMatrix->getCenter();
+            m_player.positions.push_back(m_tileMatrix->getCenter());
+            for (auto i = 1; i < 3; ++i)
+                m_player.positions.push_back({m_player.chead()->x, m_player.chead()->y + i});
 
+            // Food
             for (auto i = 0; i < 20; ++i)
                 m_foodPositions.push_back(getRandomFoodPosition());
 
@@ -49,27 +53,9 @@ namespace nsnake {
         void update() override {
             // Draw tiles
             m_tileMatrix->iterate({[&](auto &pos, auto &state) {
-                chtype ch;
-                switch (state) {
-                    case TileState::EMPTY:
-                        ch = ' ';
-                        break;
-                    case TileState::PLAYER_HEAD:
-                        ch = 'H';
-                        break;
-                    case TileState::PLAYER_TAIL:
-                        ch = 'T';
-                        break;
-                    case TileState::PLAYER_BODY:
-                        ch = 'B';
-                        break;
-                    case TileState::FOOD:
-                        ch = 'F';
-                        break;
-                    default:
-                        return;
-                }
-                putCh(ch, pos, m_context);
+                // Print at position
+                if (auto el = TILE_DATA.find(state); el != TILE_DATA.end())
+                    putCh(el->second, pos, m_context);
             }});
 
             // Update states on frame clock
@@ -105,7 +91,13 @@ namespace nsnake {
     private:
         void updateTileStates() {
             // Player
-            m_tileMatrix->stateAt(m_player.position) = TileState::PLAYER_HEAD;
+            m_tileMatrix->stateAt(m_player.head()) = TileState::PLAYER_HEAD;
+            auto bodyItr = m_player.body();
+            while (bodyItr != m_player.tail()) {
+                m_tileMatrix->stateAt(bodyItr) = TileState::PLAYER_BODY;
+                ++bodyItr;
+            }
+            m_tileMatrix->stateAt(m_player.tail()) = TileState::PLAYER_TAIL;
 
             // Food
             for (auto &pos: m_foodPositions)
@@ -114,23 +106,24 @@ namespace nsnake {
 
         void updateEntityStates() {
             // Check food collision
-            auto foodItr = std::find(m_foodPositions.begin(), m_foodPositions.end(), m_player.position);
+            auto foodItr = std::find(m_foodPositions.begin(), m_foodPositions.end(), *m_player.head());
             if (foodItr != m_foodPositions.end()) {
-                // Eat
-                ++m_player.length;
+                // TODO: Eat
+                // Replace
                 *foodItr = getRandomFoodPosition();
             }
 
             // Move player
-            m_player.position += static_cast<V2i>(m_player.velocity);
+            std::copy(m_player.head(), m_player.tail(), m_player.body());
+            *m_player.head() += static_cast<V2i>(m_player.velocity);
         }
 
         [[nodiscard]] V2i getRandomFoodPosition() const {
             V2i pos = {m_random->dist(1, m_context.extent.x - 1),
                        m_random->dist(1, m_context.extent.y - 1)};
-            if (pos.x == m_player.position.x)
+            if (pos.x == m_player.chead()->x)
                 ++pos.x;
-            if (pos.y == m_player.position.y)
+            if (pos.y == m_player.chead()->y)
                 ++pos.y;
             return pos;
         }
