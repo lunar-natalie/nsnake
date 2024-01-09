@@ -30,20 +30,20 @@ namespace nsnake {
             if (context.extent < V2i::make_uniform(1))
                 throw std::runtime_error("Invalid window size");
 
-            // Utils
+            // Initialize utils
             m_clock = std::make_unique<Clock>();
             m_time = m_clock->now();
             m_random = std::make_unique<IntGenerator>();
             m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
 
-            // Player
+            // Initialize player
             m_player.speed = V2f::make_uniform(1.0f);
             m_player.velocity = {0.0f, -m_player.speed.y};
             m_player.positions.push_back(m_tileMatrix->getCenter());
             for (auto i = 1; i < 3; ++i)
                 m_player.positions.push_back({m_player.chead()->x, m_player.chead()->y + i});
 
-            // Food
+            // Add food
             for (auto i = 0; i < 20; ++i)
                 m_foodPositions.push_back(getRandomFoodPosition());
 
@@ -70,6 +70,7 @@ namespace nsnake {
 
         SceneID processEvent(int ch) override {
             switch (ch) {
+                // Movement
                 case KEY_RIGHT:
                     m_player.velocity = {m_player.speed.x, 0.0f};
                     break;
@@ -90,7 +91,7 @@ namespace nsnake {
 
     private:
         void updateTileStates() {
-            // Player
+            // Set player tiles
             m_tileMatrix->stateAt(m_player.head()) = TileState::PLAYER_HEAD;
             auto bodyItr = m_player.body();
             while (bodyItr != m_player.tail()) {
@@ -99,7 +100,7 @@ namespace nsnake {
             }
             m_tileMatrix->stateAt(m_player.tail()) = TileState::PLAYER_TAIL;
 
-            // Food
+            // Set food tiles
             for (auto &pos: m_foodPositions)
                 m_tileMatrix->stateAt(pos) = TileState::FOOD;
         }
@@ -109,7 +110,7 @@ namespace nsnake {
             auto foodItr = std::find(m_foodPositions.begin(), m_foodPositions.end(), *m_player.head());
             if (foodItr != m_foodPositions.end()) {
                 // TODO: Eat
-                // Replace
+                // Replace with new food item
                 *foodItr = getRandomFoodPosition();
             }
 
@@ -119,12 +120,16 @@ namespace nsnake {
         }
 
         [[nodiscard]] V2i getRandomFoodPosition() const {
+            // Get a random x/y position in the extent minus 1 in all dimensions
             V2i pos = {m_random->dist(1, m_context.extent.x - 1),
                        m_random->dist(1, m_context.extent.y - 1)};
+
+            // Adjust if same as player
             if (pos.x == m_player.chead()->x)
                 ++pos.x;
             if (pos.y == m_player.chead()->y)
                 ++pos.y;
+
             return pos;
         }
     };
