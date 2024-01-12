@@ -4,6 +4,7 @@
 #include <clocale>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 #include "Application.h"
 
