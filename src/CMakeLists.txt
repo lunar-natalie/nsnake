@@ -3,7 +3,7 @@ add_executable(nSnake main.cpp
         App/Scene.h
         App/SceneMap.h
         Application.h
-        Game/Entities.h
+        Game/Player.h
         Game/TileMatrix.h
         Game/Time.h
         Scenes/Game.h

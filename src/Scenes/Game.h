@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "App/Scene.h"
-#include "Game/Entities.h"
+#include "Game/Player.h"
 #include "Game/TileMatrix.h"
 #include "Game/Time.h"
 #include "Utils/IO.h"
@@ -17,35 +17,30 @@
 
 namespace nsnake {
     class GameScene : public Scene {
+        // Utils
         std::unique_ptr<Clock> m_clock;
         Clock::time_point m_time;
-        std::unique_ptr<IntGenerator> m_random;
+        std::unique_ptr<IntGenerator> m_rng;
 
+        // Objects
         std::unique_ptr<TileMatrix> m_tileMatrix;
-        Player m_player{};
-        std::vector<V2i> m_foodPositions{};
+        Player m_player;
+        std::vector<V2i> m_food;
 
     public:
         explicit GameScene(const DrawingContext &context) : Scene(context, SceneID::GAME) {
             if (context.extent < V2i::uniform(1))
                 throw std::runtime_error("Invalid window size");
 
-            // Initialize utils
             m_clock = std::make_unique<Clock>();
             m_time = m_clock->now();
-            m_random = std::make_unique<IntGenerator>();
+            m_rng = std::make_unique<IntGenerator>();
+
             m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
+            m_player = Player(m_tileMatrix->getCenter(), 3);
 
-            // Initialize player
-            m_player.speed = V2f::uniform(1.0f);
-            m_player.velocity = {0.0f, -m_player.speed.y};
-            m_player.positions.push_back(m_tileMatrix->getCenter());
-            for (auto i = 1; i < 3; ++i)
-                m_player.positions.push_back({m_player.c_head()->x, m_player.c_head()->y + i});
-
-            // Add food
             for (auto i = 0; i < 20; ++i)
-                m_foodPositions.push_back(getRandomFoodPosition());
+                m_food.push_back(randomFoodPosition());
 
             updateTileStates();
         }
@@ -101,44 +96,26 @@ namespace nsnake {
             m_tileMatrix->stateAt(m_player.tail()) = TileState::PLAYER_TAIL;
 
             // Set food tiles
-            for (auto &pos: m_foodPositions)
+            for (auto &pos: m_food)
                 m_tileMatrix->stateAt(pos) = TileState::FOOD;
         }
 
         void updateEntityStates() {
             // Check food collision
-            auto foodItr = std::find(m_foodPositions.begin(), m_foodPositions.end(), *m_player.head());
-            if (foodItr != m_foodPositions.end()) {
-                // Extend player
-                auto newTail = *m_player.tail();
-                if (m_player.velocity.x > 0) {
-                    --newTail.x;
-                } else if (m_player.velocity.x < 0) {
-                    ++newTail.x;
-                } else if (m_player.velocity.y > 0) {
-                    --newTail.y;
-                } else {
-                    ++newTail.y;
-                }
-                m_player.positions.push_back(newTail);
-
-                // Replace with new food item
-                *foodItr = getRandomFoodPosition();
+            auto foodItr = std::find(m_food.begin(), m_food.end(), *m_player.head());
+            if (foodItr != m_food.end()) {
+                m_player.extend();
+                *foodItr = randomFoodPosition();
             }
 
-            // Move player
-            auto rawPos = *m_player.head() + static_cast<V2i>(m_player.velocity);
-            auto nextPos = V2i::clamp(rawPos, V2i::uniform(0), m_context.extent - V2i::uniform(1));
-            if (rawPos == nextPos)
-                std::shift_right(m_player.positions.begin(), m_player.positions.end(), 1);
-            *m_player.head() = nextPos;
+            m_player.updatePosition(m_context);
         }
 
-        [[nodiscard]] V2i getRandomFoodPosition() const {
+        [[nodiscard]] V2i randomFoodPosition() const {// Find a random empty tile in the context screen area
             V2i pos;
             do {
-                pos = {m_random->dist(0, m_context.extent.x - 1),
-                       m_random->dist(0, m_context.extent.y - 1)};
+                pos = {m_rng->dist(0, m_context.extent.x - 1),
+                       m_rng->dist(0, m_context.extent.y - 1)};
             } while (m_tileMatrix->stateAt(pos) != TileState::EMPTY);
             return pos;
         }
