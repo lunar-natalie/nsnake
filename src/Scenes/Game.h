@@ -3,13 +3,13 @@
 
 #pragma once
 
+#include <algorithm>
 #include <memory>
 #include <stdexcept>
 #include <vector>
 
 #include "App/Scene.h"
 #include "Game/Entities.h"
-#include "Game/TileData.h"
 #include "Game/TileMatrix.h"
 #include "Game/Time.h"
 #include "Utils/IO.h"
@@ -27,7 +27,7 @@ namespace nsnake {
 
     public:
         explicit GameScene(const DrawingContext &context) : Scene(context, SceneID::GAME) {
-            if (context.extent < V2i::make_uniform(1))
+            if (context.extent < V2i::uniform(1))
                 throw std::runtime_error("Invalid window size");
 
             // Initialize utils
@@ -37,11 +37,11 @@ namespace nsnake {
             m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
 
             // Initialize player
-            m_player.speed = V2f::make_uniform(1.0f);
+            m_player.speed = V2f::uniform(1.0f);
             m_player.velocity = {0.0f, -m_player.speed.y};
             m_player.positions.push_back(m_tileMatrix->getCenter());
             for (auto i = 1; i < 3; ++i)
-                m_player.positions.push_back({m_player.cHead()->x, m_player.cHead()->y + i});
+                m_player.positions.push_back({m_player.c_head()->x, m_player.c_head()->y + i});
 
             // Add food
             for (auto i = 0; i < 20; ++i)
@@ -53,8 +53,8 @@ namespace nsnake {
         void update() override {
             // Draw tiles
             m_tileMatrix->iterate({[&](auto &pos, auto &state) {
-                // Print at position
-                if (auto el = TILE_DATA.find(state); el != TILE_DATA.end())
+                // Put the character corresponding to the tile state at the tile position
+                if (auto el = characterMap.find(state); el != characterMap.end())
                     putCh(el->second, pos, m_context);
             }});
 
@@ -94,10 +94,10 @@ namespace nsnake {
             // Set player tiles
             m_tileMatrix->stateAt(m_player.head()) = TileState::PLAYER_HEAD;
             auto bodyItr = m_player.body();
-            while (bodyItr != m_player.tail()) {
+            do {
                 m_tileMatrix->stateAt(bodyItr) = TileState::PLAYER_BODY;
                 ++bodyItr;
-            }
+            } while (bodyItr != m_player.tail());
             m_tileMatrix->stateAt(m_player.tail()) = TileState::PLAYER_TAIL;
 
             // Set food tiles
@@ -109,27 +109,25 @@ namespace nsnake {
             // Check food collision
             auto foodItr = std::find(m_foodPositions.begin(), m_foodPositions.end(), *m_player.head());
             if (foodItr != m_foodPositions.end()) {
-                // TODO: Eat
+                // TODO: Extend player
                 // Replace with new food item
                 *foodItr = getRandomFoodPosition();
             }
 
             // Move player
-            std::copy(m_player.head(), m_player.tail(), m_player.body());
-            *m_player.head() += static_cast<V2i>(m_player.velocity);
+            auto rawPos = *m_player.head() + static_cast<V2i>(m_player.velocity);
+            auto nextPos = V2i::clamp(rawPos, V2i::uniform(0), m_context.extent - V2i::uniform(1));
+            if (rawPos == nextPos)
+                std::shift_right(m_player.positions.begin(), m_player.positions.end(), 1);
+            *m_player.head() = nextPos;
         }
 
         [[nodiscard]] V2i getRandomFoodPosition() const {
-            // Get a random x/y position in the extent minus 1 in all dimensions
-            V2i pos = {m_random->dist(1, m_context.extent.x - 1),
-                       m_random->dist(1, m_context.extent.y - 1)};
-
-            // Adjust if same as player
-            if (pos.x == m_player.cHead()->x)
-                ++pos.x;
-            if (pos.y == m_player.cHead()->y)
-                ++pos.y;
-
+            V2i pos;
+            do {
+                pos = {m_random->dist(0, m_context.extent.x - 1),
+                       m_random->dist(0, m_context.extent.y - 1)};
+            } while (m_tileMatrix->stateAt(pos) != TileState::EMPTY);
             return pos;
         }
     };

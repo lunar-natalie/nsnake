@@ -4,7 +4,10 @@
 #pragma once
 
 #include <list>
+#include <map>
 #include <vector>
+
+#include <curses.h>
 
 #include "Utils/Geometry.h"
 
@@ -12,9 +15,18 @@ namespace nsnake {
     enum class TileState {
         EMPTY = 0,// Default value for std::vector
         PLAYER_HEAD,
-        PLAYER_TAIL,
         PLAYER_BODY,
+        PLAYER_TAIL,
         FOOD
+    };
+
+    // Map of tile states to character data
+    const std::map<TileState, chtype> characterMap{
+            {TileState::EMPTY, ' '},
+            {TileState::PLAYER_HEAD, 'H'},
+            {TileState::PLAYER_BODY, 'B'},
+            {TileState::PLAYER_TAIL, 'T'},
+            {TileState::FOOD, 'F'},
     };
 
     // Iterable 2D vector dividing the screen area into rows and columns of tiles, each storing a TileState.

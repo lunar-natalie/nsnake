@@ -13,7 +13,7 @@
 
 namespace nsnake {
     // Map of scene IDs to functions returning class instances
-    const std::unordered_map<SceneID, std::function<std::unique_ptr<Scene>(DrawingContext const &context)>> SCENE_MAP{
+    const std::unordered_map<SceneID, std::function<std::unique_ptr<Scene>(DrawingContext const &context)>> sceneMap{
             {SceneID::NONE, [](auto &c) { return nullptr; }},
             {SceneID::MENU, [](auto &c) { return std::make_unique<MenuScene>(c); }},
             {SceneID::GAME, [](auto &c) { return std::make_unique<GameScene>(c); }},

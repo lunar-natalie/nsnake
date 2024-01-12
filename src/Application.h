@@ -37,7 +37,7 @@ namespace nsnake {
 
             // Setup initial scene
             updateContext();
-            m_scene = SCENE_MAP.at(initialScene)(m_drawingContext);
+            m_scene = sceneMap.at(initialScene)(m_drawingContext);
         }
 
         void start() {
@@ -72,7 +72,7 @@ namespace nsnake {
                         } else {
                             // Clear graphics drawn by the current scene and create the new scene from the returned ID
                             erase();
-                            m_scene = SCENE_MAP.at(newID)(m_drawingContext);
+                            m_scene = sceneMap.at(newID)(m_drawingContext);
                             if (m_scene == nullptr)
                                 throw std::runtime_error("Invalid scene");
                         }
@@ -97,7 +97,7 @@ namespace nsnake {
         }
 
         [[nodiscard]] DrawingContext createDrawingContext() const {
-            auto border = V2i::make_uniform(ApplicationContext::borderWidth);
+            auto border = V2i::uniform(ApplicationContext::borderWidth);
             return {.extent = m_appContext.windowExtent - (2 * border), .offset = border};
         }
     };

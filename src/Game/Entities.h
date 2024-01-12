@@ -18,10 +18,8 @@ namespace nsnake {
         PositionList positions;
 
         PositionList::iterator head() { return positions.begin(); }
-        [[nodiscard]] PositionList::const_iterator cHead() const {
-            return positions.begin();
-        }
-        PositionList::iterator body() { return ++positions.begin(); }
-        PositionList::iterator tail() { return positions.end(); }
+        [[nodiscard]] PositionList::const_iterator c_head() const { return positions.cbegin(); }
+        PositionList::iterator body() { return ++positions.begin(); /* 2nd element */ }
+        PositionList::iterator tail() { return --positions.end(); /* Last element */ }
     };
 }// namespace nsnake

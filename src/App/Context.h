@@ -8,7 +8,7 @@
 namespace nsnake {
     struct ApplicationContext {
         V2i windowExtent{};
-        constexpr static int borderWidth = 1;
+        const static int borderWidth = 1;
     };
 
     struct DrawingContext {
