@@ -2,9 +2,9 @@ add_executable(nSnake main.cpp
         App/Context.h
         App/Scene.h
         Application.h
+        Game/Clock.h
         Game/Player.h
         Game/TileMatrix.h
-        Game/Time.h
         Scenes/Game.h
         Scenes/Menu.h
         Utils/Geometry.h

@@ -37,6 +37,11 @@ namespace nsnake {
             return ret;
         }
 
+        template<typename U = T>
+        static constexpr T product(const Vec2<U> &v) {
+            return v.x * v.y;
+        }
+
         explicit constexpr operator V2i() {
             return {static_cast<int>(x), static_cast<int>(y)};
         }

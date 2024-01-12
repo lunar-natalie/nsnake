@@ -9,20 +9,20 @@
 #include <vector>
 
 #include "App/Scene.h"
+#include "Game/Clock.h"
 #include "Game/Player.h"
 #include "Game/TileMatrix.h"
-#include "Game/Time.h"
 #include "Utils/IO.h"
 #include "Utils/Random.h"
 
 namespace nsnake {
     class GameScene : public Scene {
-        // Utils
         std::unique_ptr<Clock> m_clock;
         Clock::time_point m_time;
+        chrono::duration<unsigned, std::milli> m_tickRate = 100ms;
+
         std::unique_ptr<RandomIntGenerator> m_rng;
 
-        // Objects
         std::unique_ptr<TileMatrix> m_tileMatrix;
         Player m_player;
         std::vector<V2i> m_food;
@@ -39,10 +39,10 @@ namespace nsnake {
             m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
             m_player = Player(m_tileMatrix->getCenter(), 3);
 
-            for (auto i = 0; i < 20; ++i)
-                m_food.push_back(randomFoodPosition());
-
             updateTileStates();
+
+            for (auto i = 0; i < V2i::product(context.extent) / 20; ++i)
+                m_food.push_back(randomFoodPosition());
         }
 
         void update() override {
@@ -55,7 +55,7 @@ namespace nsnake {
 
             // Update states on frame clock
             auto now = m_clock->now();
-            if (FrameDuration(now - m_time) >= ONE_FRAME) {
+            if (FrameDuration(now - m_time) >= FrameDuration(m_tickRate)) {
                 m_tileMatrix->reset();
                 updateEntityStates();
                 updateTileStates();

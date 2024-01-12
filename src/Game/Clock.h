@@ -6,13 +6,11 @@
 #include <chrono>
 
 namespace nsnake {
+    static const int TARGET_FRAMERATE = 24;
+
     namespace chrono = std::chrono;
     using namespace std::chrono_literals;
-
     using Clock = chrono::steady_clock;
 
-    constexpr static int TARGET_FRAMERATE = 24;
-
     using FrameDuration = chrono::duration<double, std::ratio<1, TARGET_FRAMERATE>>;
-    constexpr static auto ONE_FRAME = FrameDuration(0.5s);
 }// namespace nsnake
