@@ -17,15 +17,16 @@ namespace nsnake {
         // and ending at the tail.
         using PositionList = std::list<V2i>;
         PositionList positions{};
-
         PositionList::iterator head() { return positions.begin(); }
         [[nodiscard]] PositionList::const_iterator c_head() const { return positions.cbegin(); }
         PositionList::iterator body() { return ++positions.begin(); /* 2nd element */ }
         PositionList::iterator tail() { return --positions.end(); /* Last element */ }
 
+        static const int INITIAL_LENGTH = 3;
+
         explicit Player() = default;
 
-        explicit Player(const V2i &startPos, unsigned length = 3)
+        explicit Player(const V2i &startPos, int length = INITIAL_LENGTH)
             : velocity{0.0f, -speed.y} /* Going up */ {
             // Push the initial head, body and tail positions, extending from the default direction (down)
             positions.push_back(startPos);

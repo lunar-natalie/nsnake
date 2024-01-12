@@ -4,6 +4,7 @@
 #pragma once
 
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <stdexcept>
 #include <vector>
@@ -27,11 +28,11 @@ namespace nsnake {
         std::unique_ptr<TileMatrix> m_tileMatrix;
         Player m_player;
         std::vector<V2i> m_food;
-        static const unsigned FOOD_FREQUENCY = 20;// 1 per every n tile
+        static const int FOOD_FREQUENCY = 30;// 1 per every nth tile
 
     public:
         explicit GameScene(const DrawingContext &context) : Scene(context, SceneID::GAME) {
-            if (context.extent < V2i::uniform(1))
+            if (V2i::product(context.extent) < std::pow(Player::INITIAL_LENGTH, 2))
                 throw std::runtime_error("Invalid window size");
 
             m_clock = std::make_unique<Clock>();
@@ -41,7 +42,7 @@ namespace nsnake {
 
             m_player = Player(m_tileMatrix->getCenter());
             updateTileStates();
-            for (auto i = 0; i < V2i::product(context.extent) / FOOD_FREQUENCY; ++i)
+            for (auto i = 0; i < foodCount(); ++i)
                 m_food.push_back(randomFoodPos());
         }
 
@@ -121,6 +122,10 @@ namespace nsnake {
                        m_rng->dist(0, m_context.extent.y - 1)};
             } while (m_tileMatrix->stateAt(pos) != TileState::EMPTY);
             return pos;
+        }
+
+        [[nodiscard]] int foodCount() const {
+            return V2i::product(m_context.extent) / FOOD_FREQUENCY;
         }
     };
 }// namespace nsnake
