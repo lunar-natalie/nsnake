@@ -66,6 +66,9 @@ namespace nsnake {
         }
 
         SceneID processEvent(int ch) override {
+            if (!m_player.isAlive)
+                return SceneID::MENU;
+
             switch (ch) {
                 // Movement
                 case KEY_RIGHT:
@@ -83,6 +86,7 @@ namespace nsnake {
                 default:
                     break;
             }
+
             return m_id;
         }
 
@@ -103,6 +107,11 @@ namespace nsnake {
         }
 
         void updateEntityStates() {
+            // Check body/tail collision
+            auto playerItr = std::find(m_player.body(), m_player.positions.end(), *m_player.head());
+            if (playerItr != m_player.positions.end())
+                m_player.isAlive = false;
+
             // Check food collision
             auto foodItr = std::find(m_food.begin(), m_food.end(), *m_player.head());
             if (foodItr != m_food.end()) {

@@ -12,6 +12,7 @@ namespace nsnake {
     struct Player {
         V2f speed = V2f::uniform(1.0f);
         V2f velocity{};
+        bool isAlive = true;
 
         // Linked list of positions in the tile matrix, each which hold a portion of the snake, starting from the head
         // and ending at the tail.
