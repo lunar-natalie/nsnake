@@ -19,13 +19,15 @@ namespace nsnake {
     class GameScene : public Scene {
         std::unique_ptr<Clock> m_clock;
         Clock::time_point m_timeRef;
-        chrono::duration<unsigned, std::milli> m_tickRate = 100ms;
+        TickRate m_tickRate = 100ms;
+        static constexpr TickRate MIN_TICK = 50ms;
 
         std::unique_ptr<RandomIntGenerator> m_rng;
 
         std::unique_ptr<TileMatrix> m_tileMatrix;
         Player m_player;
         std::vector<V2i> m_food;
+        static const unsigned FOOD_FREQUENCY = 20;// 1 per every n tile
 
     public:
         explicit GameScene(const DrawingContext &context) : Scene(context, SceneID::GAME) {
@@ -39,8 +41,8 @@ namespace nsnake {
 
             m_player = Player(m_tileMatrix->getCenter());
             updateTileStates();
-            for (auto i = 0; i < V2i::product(context.extent) / 20; ++i)
-                m_food.push_back(randomFoodPosition());
+            for (auto i = 0; i < V2i::product(context.extent) / FOOD_FREQUENCY; ++i)
+                m_food.push_back(randomFoodPos());
         }
 
         void update() override {
@@ -104,14 +106,14 @@ namespace nsnake {
             if (foodItr != m_food.end()) {
                 // Eat
                 m_player.extend();
-                *foodItr = randomFoodPosition();
+                *foodItr = randomFoodPos();
             }
 
             // Move player
             m_player.updatePosition(m_context);
         }
 
-        [[nodiscard]] V2i randomFoodPosition() const {
+        [[nodiscard]] V2i randomFoodPos() const {
             // Find a random empty tile in the matrix
             V2i pos;
             do {

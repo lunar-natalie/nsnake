@@ -13,4 +13,5 @@ namespace nsnake {
 
     using Clock = chrono::steady_clock;
     using FrameDuration = chrono::duration<double, std::ratio<1, TARGET_FRAMERATE>>;
+    using TickRate = chrono::duration<unsigned, std::milli>;
 }// namespace nsnake
