@@ -25,7 +25,7 @@ namespace nsnake {
 
         explicit Player() = default;
 
-        Player(const V2i &startPos, unsigned length) : velocity{0.0f, -speed.y} {
+        Player(const V2i &startPos, unsigned length = 3) : velocity{0.0f, -speed.y} {
             // Push the initial head, body and tail positions, extending from the default direction (down)
             positions.push_back(startPos);
             for (auto i = 1; i < length; ++i)

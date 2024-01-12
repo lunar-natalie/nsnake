@@ -37,7 +37,7 @@ namespace nsnake {
             m_rng = std::make_unique<RandomIntGenerator>();
 
             m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
-            m_player = Player(m_tileMatrix->getCenter(), 3);
+            m_player = Player(m_tileMatrix->getCenter());
 
             updateTileStates();
 
