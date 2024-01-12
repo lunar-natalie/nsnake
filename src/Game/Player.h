@@ -38,11 +38,10 @@ namespace nsnake {
             auto rawPos = *head() + static_cast<V2i>(velocity);
             // Cap position to matrix area
             auto nextPos = V2i::clamp(rawPos, V2i::uniform(0), dc.extent - V2i::uniform(1));
-
             // Increment body and tail positions
             if (rawPos == nextPos)
                 std::shift_right(positions.begin(), positions.end(), 1);
-
+            // Set new head position
             *head() = nextPos;
         }
 
