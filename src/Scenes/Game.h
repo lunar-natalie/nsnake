@@ -22,6 +22,7 @@ namespace nsnake {
         Clock::time_point m_timeRef;
         TickRate m_tickRate = 100ms;
         static constexpr TickRate MIN_TICK = 50ms;
+        static constexpr TickRate TICK_ACCEL = 5ms;
 
         std::unique_ptr<RandomIntGenerator> m_rng;
 
@@ -105,9 +106,11 @@ namespace nsnake {
             // Check food collision
             auto foodItr = std::find(m_food.begin(), m_food.end(), *m_player.head());
             if (foodItr != m_food.end()) {
-                // Eat
                 m_player.extend();
                 *foodItr = randomFoodPos();
+                // Accelerate
+                if (m_tickRate > MIN_TICK)
+                    m_tickRate = std::max(m_tickRate - TICK_ACCEL, MIN_TICK);
             }
 
             // Move player
