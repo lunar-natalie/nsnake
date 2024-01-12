@@ -35,12 +35,10 @@ namespace nsnake {
             m_clock = std::make_unique<Clock>();
             m_timeRef = m_clock->now();
             m_rng = std::make_unique<RandomIntGenerator>();
-
             m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
+
             m_player = Player(m_tileMatrix->getCenter());
-
             updateTileStates();
-
             for (auto i = 0; i < V2i::product(context.extent) / 20; ++i)
                 m_food.push_back(randomFoodPosition());
         }
