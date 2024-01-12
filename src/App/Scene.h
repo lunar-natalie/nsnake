@@ -20,16 +20,13 @@ namespace nsnake {
     public:
         explicit Scene(const DrawingContext &context, SceneID id)
             : m_context{context},
-              m_id{id} {
-        }
+              m_id{id} {}
 
         virtual ~Scene() = default;
 
         virtual void update() = 0;
         virtual SceneID processEvent(int ch) = 0;
 
-        [[nodiscard]] auto getID() const {
-            return m_id;
-        }
+        [[nodiscard]] auto getID() const { return m_id; }
     };
 }// namespace nsnake

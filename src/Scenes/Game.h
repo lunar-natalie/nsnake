@@ -18,7 +18,7 @@
 namespace nsnake {
     class GameScene : public Scene {
         std::unique_ptr<Clock> m_clock;
-        Clock::time_point m_time;
+        Clock::time_point m_timeRef;
         chrono::duration<unsigned, std::milli> m_tickRate = 100ms;
 
         std::unique_ptr<RandomIntGenerator> m_rng;
@@ -33,7 +33,7 @@ namespace nsnake {
                 throw std::runtime_error("Invalid window size");
 
             m_clock = std::make_unique<Clock>();
-            m_time = m_clock->now();
+            m_timeRef = m_clock->now();
             m_rng = std::make_unique<RandomIntGenerator>();
 
             m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
@@ -55,11 +55,11 @@ namespace nsnake {
 
             // Update states on frame clock
             auto now = m_clock->now();
-            if (FrameDuration(now - m_time) >= FrameDuration(m_tickRate)) {
+            if (FrameDuration(now - m_timeRef) >= FrameDuration(m_tickRate)) {
                 m_tileMatrix->reset();
                 updateEntityStates();
                 updateTileStates();
-                m_time = now;
+                m_timeRef = now;
             }
         }
 
@@ -104,6 +104,7 @@ namespace nsnake {
             // Check food collision
             auto foodItr = std::find(m_food.begin(), m_food.end(), *m_player.head());
             if (foodItr != m_food.end()) {
+                // Eat
                 m_player.extend();
                 *foodItr = randomFoodPosition();
             }

@@ -9,8 +9,7 @@
 namespace nsnake {
     class MenuScene : public Scene {
     public:
-        explicit MenuScene(const DrawingContext &context) : Scene(context, SceneID::MENU) {
-        }
+        explicit MenuScene(const DrawingContext &context) : Scene(context, SceneID::MENU) {}
 
         void update() override {
             putStrCenter("Press RETURN to begin", m_context);

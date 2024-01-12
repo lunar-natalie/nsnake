@@ -6,7 +6,6 @@
 namespace nsnake {
     template<typename T>
     struct Vec2;
-
     using V2i = Vec2<int>;
     using V2d = Vec2<double>;
     using V2f = Vec2<float>;

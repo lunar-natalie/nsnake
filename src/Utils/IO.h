@@ -10,13 +10,13 @@
 #include "App/Context.h"
 
 namespace nsnake {
-    inline int putCh(chtype ch, V2i relativePosition, const DrawingContext &context) noexcept {
-        auto finalPos = relativePosition + context.offset;
+    inline int putCh(chtype ch, V2i relativePos, const DrawingContext &context) noexcept {
+        auto finalPos = relativePos + context.offset;
         return mvaddch(finalPos.y, finalPos.x, ch);
     }
 
-    inline int putStr(const char *str, V2i relativePosition, const DrawingContext &context) noexcept {
-        auto finalPos = relativePosition + context.offset;
+    inline int putStr(const char *str, V2i relativePos, const DrawingContext &context) noexcept {
+        auto finalPos = relativePos + context.offset;
         return mvaddstr(finalPos.y, finalPos.x, str);
     }
 
