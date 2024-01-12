@@ -26,29 +26,36 @@ namespace nsnake {
         explicit Player() = default;
 
         Player(const V2i &startPos, unsigned length) : velocity{0.0f, -speed.y} {
+            // Push the initial head, body and tail positions, extending from the default direction (down)
             positions.push_back(startPos);
             for (auto i = 1; i < length; ++i)
                 positions.push_back({c_head()->x, c_head()->y + i});
         }
 
         void updatePosition(const DrawingContext &dc) {
+            // Get next position
             auto rawPos = *head() + static_cast<V2i>(velocity);
+            // Cap position to matrix area
             auto nextPos = V2i::clamp(rawPos, V2i::uniform(0), dc.extent - V2i::uniform(1));
+
+            // Increment body and tail positions
             if (rawPos == nextPos)
                 std::shift_right(positions.begin(), positions.end(), 1);
+
             *head() = nextPos;
         }
 
         void extend() {
             auto newTail = *tail();
+            // Adjust new position in reverse direction to movement
             if (velocity.x > 0) {
-                --newTail.x;
+                --newTail.x;// Up
             } else if (velocity.x < 0) {
-                ++newTail.x;
+                ++newTail.x;// Down
             } else if (velocity.y > 0) {
-                --newTail.y;
+                --newTail.y;// Left
             } else {
-                ++newTail.y;
+                ++newTail.y;// Right
             }
             positions.push_back(newTail);
         }

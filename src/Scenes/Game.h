@@ -48,12 +48,12 @@ namespace nsnake {
         void update() override {
             // Draw tiles
             m_tileMatrix->iterate({[&](auto &pos, auto &state) {
-                // Put the character corresponding to the tile state at the tile position
+                // Place the character corresponding to the tile state
                 if (auto el = characterMap.find(state); el != characterMap.end())
                     putCh(el->second, pos, m_context);
             }});
 
-            // Update states on frame clock
+            // Update states on tick
             auto now = m_clock->now();
             if (FrameDuration(now - m_timeRef) >= FrameDuration(m_tickRate)) {
                 m_tileMatrix->reset();
@@ -109,10 +109,12 @@ namespace nsnake {
                 *foodItr = randomFoodPosition();
             }
 
+            // Move player
             m_player.updatePosition(m_context);
         }
 
-        [[nodiscard]] V2i randomFoodPosition() const {// Find a random empty tile in the context screen area
+        [[nodiscard]] V2i randomFoodPosition() const {
+            // Find a random empty tile in the matrix
             V2i pos;
             do {
                 pos = {m_rng->dist(0, m_context.extent.x - 1),
