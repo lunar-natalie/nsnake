@@ -20,7 +20,7 @@ namespace nsnake {
         // Utils
         std::unique_ptr<Clock> m_clock;
         Clock::time_point m_time;
-        std::unique_ptr<IntGenerator> m_rng;
+        std::unique_ptr<RandomIntGenerator> m_rng;
 
         // Objects
         std::unique_ptr<TileMatrix> m_tileMatrix;
@@ -34,7 +34,7 @@ namespace nsnake {
 
             m_clock = std::make_unique<Clock>();
             m_time = m_clock->now();
-            m_rng = std::make_unique<IntGenerator>();
+            m_rng = std::make_unique<RandomIntGenerator>();
 
             m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
             m_player = Player(m_tileMatrix->getCenter(), 3);

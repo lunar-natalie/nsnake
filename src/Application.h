@@ -3,19 +3,25 @@
 
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <stdexcept>
+#include <unordered_map>
 
 #include <curses.h>
 
 #include "App/Context.h"
 #include "App/Scene.h"
-#include "App/SceneMap.h"
+#include "Scenes/Game.h"
 #include "Scenes/Menu.h"
 #include "Utils/Window.h"
 
 namespace nsnake {
+    // Map of scene IDs to functions returning class instances
+    using SceneMap = std::unordered_map<SceneID, std::function<std::unique_ptr<Scene>(DrawingContext const &context)>>;
+
     class Application {
+        const static SceneMap sceneMap;
         ApplicationContext m_appContext;
         DrawingContext m_drawingContext;
         std::unique_ptr<Scene> m_scene;
@@ -100,5 +106,11 @@ namespace nsnake {
             auto border = V2i::uniform(ApplicationContext::borderWidth);
             return {.extent = m_appContext.windowExtent - (2 * border), .offset = border};
         }
+    };
+
+    const SceneMap Application::sceneMap = {
+            {SceneID::NONE, [](auto &c) { return nullptr; }},
+            {SceneID::MENU, [](auto &c) { return std::make_unique<MenuScene>(c); }},
+            {SceneID::GAME, [](auto &c) { return std::make_unique<GameScene>(c); }},
     };
 }// namespace nsnake
