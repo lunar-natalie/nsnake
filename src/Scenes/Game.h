@@ -109,7 +109,19 @@ namespace nsnake {
             // Check food collision
             auto foodItr = std::find(m_foodPositions.begin(), m_foodPositions.end(), *m_player.head());
             if (foodItr != m_foodPositions.end()) {
-                // TODO: Extend player
+                // Extend player
+                auto newTail = *m_player.tail();
+                if (m_player.velocity.x > 0) {
+                    --newTail.x;
+                } else if (m_player.velocity.x < 0) {
+                    ++newTail.x;
+                } else if (m_player.velocity.y > 0) {
+                    --newTail.y;
+                } else {
+                    ++newTail.y;
+                }
+                m_player.positions.push_back(newTail);
+
                 // Replace with new food item
                 *foodItr = getRandomFoodPosition();
             }
