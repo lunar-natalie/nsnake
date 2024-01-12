@@ -22,11 +22,11 @@ namespace nsnake {
         PositionList::iterator body() { return ++positions.begin(); /* 2nd element */ }
         PositionList::iterator tail() { return --positions.end(); /* Last element */ }
 
-        static const int INITIAL_LENGTH = 3;
+        static const int MIN_LENGTH = 3;
 
         explicit Player() = default;
 
-        explicit Player(const V2i &startPos, int length = INITIAL_LENGTH)
+        explicit Player(const V2i &startPos, int length = MIN_LENGTH)
             : velocity{0.0f, -speed.y} /* Going up */ {
             // Push the initial head, body and tail positions, extending from the default direction (down)
             positions.push_back(startPos);

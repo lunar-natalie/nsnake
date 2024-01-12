@@ -33,7 +33,7 @@ namespace nsnake {
 
     public:
         explicit GameScene(const DrawingContext &context) : Scene(context, SceneID::GAME) {
-            if (V2i::product(context.extent) < std::pow(Player::INITIAL_LENGTH, 2))
+            if (V2i::product(context.extent) < std::pow(Player::MIN_LENGTH, 2))
                 throw std::runtime_error("Invalid window size");
 
             m_clock = std::make_unique<Clock>();
