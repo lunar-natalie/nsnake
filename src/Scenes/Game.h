@@ -128,7 +128,7 @@ namespace nsnake {
             m_player.updatePosition(m_context);
         }
 
-        // Gets a random empty tile in the tile matrix
+        // Gets a random empty tile in the matrix
         [[nodiscard]] V2i randomFoodPos() const {
             V2i pos;
             do {
