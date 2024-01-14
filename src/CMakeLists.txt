@@ -5,13 +5,13 @@ add_executable(nSnake main.cpp
         Game/Clock.h
         Game/Player.h
         Game/TileMatrix.h
-        Scenes/Game.h
-        Scenes/Menu.h
+        Scenes/GameScene.h
+        Scenes/MenuScene.h
         Utils/Geometry.h
         Utils/IO.h
         Utils/Random.h
         Utils/Window.h
-        Scenes/Kill.h
+        Scenes/KillScene.h
 )
 target_include_directories(nSnake
         PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CURSES_INCLUDE_DIRS})

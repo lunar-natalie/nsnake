@@ -12,9 +12,9 @@
 
 #include "App/Context.h"
 #include "App/Scene.h"
-#include "Scenes/Game.h"
-#include "Scenes/Kill.h"
-#include "Scenes/Menu.h"
+#include "Scenes/GameScene.h"
+#include "Scenes/KillScene.h"
+#include "Scenes/MenuScene.h"
 #include "Utils/Window.h"
 
 namespace nsnake {
