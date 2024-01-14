@@ -42,8 +42,12 @@ namespace nsnake {
             keypad(stdscr, TRUE);    // Enable input
             nodelay(stdscr, TRUE);   // Disable blocking on input
 
+            // Initialize contexts
+            auto border = V2i::uniform(ApplicationContext::borderWidth);
+            m_appContext = {.windowExtent = getExtent(stdscr)};
+            m_drawingContext = {.extent = m_appContext.windowExtent - (2 * border), .offset = border};
+
             // Setup initial scene
-            updateContext();
             m_scene = sceneMap.at(initialScene)(m_drawingContext);
         }
 
@@ -61,24 +65,26 @@ namespace nsnake {
                 auto ch = getch();// Get input and refresh
                 switch (ch) {
                     case KEY_RESIZE:
-                        updateContext();// Refresh limiting parameters for scene geometry
+                        updateContext();
                         if (m_scene->hasFlag(SceneFlags::REDRAW))
-                            erase();// Clear screen before next iteration
+                            erase();
                         break;
 
                     case 'q':// Exit
                         done = true;
                         break;
 
-                    default:
-                        // Delegate the event to the current scene
+                    default:// Delegate the event to the current scene
                         auto newID = m_scene->processEvent(ch);
                         if (newID == m_scene->getID()) {
-                            break;// Same scene: continue
+                            // Same scene, continue
+                            break;
                         } else if (newID == SceneID::NONE) {
-                            done = true;// Null scene: exit
+                            // Null scene, exit
+                            done = true;
                         } else {
-                            m_scene = sceneMap.at(newID)(m_drawingContext);// Next scene
+                            // Next scene
+                            m_scene = sceneMap.at(newID)(m_drawingContext);
                             if (m_scene == nullptr)
                                 throw std::runtime_error("Invalid scene");
                             if (m_scene->hasFlag(SceneFlags::REDRAW))
@@ -99,13 +105,10 @@ namespace nsnake {
 
     private:
         void updateContext() {
-            m_appContext.windowExtent = getExtent(stdscr);
-            m_drawingContext = createDrawingContext();
-        }
-
-        [[nodiscard]] DrawingContext createDrawingContext() const {
-            auto border = V2i::uniform(ApplicationContext::borderWidth);
-            return {.extent = m_appContext.windowExtent - (2 * border), .offset = border};
+            auto &oldExtent = m_appContext.windowExtent;
+            auto newExtent = getExtent(stdscr);
+            m_drawingContext.extent += newExtent - oldExtent;
+            oldExtent = newExtent;
         }
     };
 
