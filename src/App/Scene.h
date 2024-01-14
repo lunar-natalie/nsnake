@@ -13,15 +13,23 @@ namespace nsnake {
         KILL
     };
 
+    enum SceneFlags : unsigned {
+        NONE [[maybe_unused]],
+        REDRAW,
+        SUBWIN
+    };
+
     class Scene {
     protected:
         const SceneID m_id;
         const DrawingContext &m_context;
+        const unsigned m_flags;
 
     public:
-        explicit Scene(const DrawingContext &context, SceneID id)
+        explicit Scene(const DrawingContext &context, SceneID id, unsigned flags = SceneFlags::REDRAW)
             : m_context{context},
-              m_id{id} {}
+              m_id{id},
+              m_flags{flags} {}
 
         virtual ~Scene() = default;
 
@@ -29,5 +37,9 @@ namespace nsnake {
         virtual SceneID processEvent(int ch) = 0;
 
         [[nodiscard]] auto getID() const { return m_id; }
+
+        [[nodiscard]] constexpr bool hasFlag(SceneFlags f) const {
+            return (m_flags & f) == 1;
+        }
     };
 }// namespace nsnake
