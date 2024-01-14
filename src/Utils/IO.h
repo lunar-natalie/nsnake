@@ -20,10 +20,11 @@ namespace nsnake {
         return mvaddstr(finalPos.y, finalPos.x, str);
     }
 
-    inline int putStrCenter(const char *str, const DrawingContext &context) noexcept {
+    inline int putStrCenter(const char *str, const DrawingContext &context, int yOffset = 0) noexcept {
         auto pos = context.extent;
         pos.x -= static_cast<int>(std::strlen(str));
         pos /= 2;
+        pos.y += yOffset;
         return putStr(str, pos, context);
     }
 }// namespace nsnake

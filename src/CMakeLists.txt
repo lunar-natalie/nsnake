@@ -11,6 +11,7 @@ add_executable(nSnake main.cpp
         Utils/IO.h
         Utils/Random.h
         Utils/Window.h
+        Scenes/Kill.h
 )
 target_include_directories(nSnake
         PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CURSES_INCLUDE_DIRS})

@@ -9,7 +9,8 @@ namespace nsnake {
     enum class SceneID {
         NONE,
         MENU,
-        GAME
+        GAME,
+        KILL
     };
 
     class Scene {

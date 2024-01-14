@@ -67,7 +67,7 @@ namespace nsnake {
 
         SceneID processEvent(int ch) override {
             if (!m_player.isAlive)
-                return SceneID::MENU;
+                return SceneID::KILL;
 
             switch (ch) {
                 // Movement

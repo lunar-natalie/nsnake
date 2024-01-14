@@ -13,6 +13,7 @@
 #include "App/Context.h"
 #include "App/Scene.h"
 #include "Scenes/Game.h"
+#include "Scenes/Kill.h"
 #include "Scenes/Menu.h"
 #include "Utils/Window.h"
 
@@ -112,5 +113,5 @@ namespace nsnake {
             {SceneID::NONE, [](auto &c) { return nullptr; }},
             {SceneID::MENU, [](auto &c) { return std::make_unique<MenuScene>(c); }},
             {SceneID::GAME, [](auto &c) { return std::make_unique<GameScene>(c); }},
-    };
+            {SceneID::KILL, [](auto &c) { return std::make_unique<KillScene>(c); }}};
 }// namespace nsnake
