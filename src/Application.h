@@ -50,9 +50,8 @@ namespace nsnake {
         void start() {
             auto done = false;
             do {
-                if (m_scene->hasFlag(SceneFlags::SUBWIN)) {
+                if (m_scene->hasFlag(SceneFlags::SUBWIN))
                     touchwin(stdscr);
-                }
                 m_scene->update();
 
                 // Draw default window border
@@ -63,10 +62,8 @@ namespace nsnake {
                 switch (ch) {
                     case KEY_RESIZE:
                         updateContext();// Refresh limiting parameters for scene geometry
-                        if (m_scene->hasFlag(SceneFlags::REDRAW)) {
-                            // Clear screen before next iteration
-                            erase();
-                        }
+                        if (m_scene->hasFlag(SceneFlags::REDRAW))
+                            erase();// Clear screen before next iteration
                         break;
 
                     case 'q':// Exit
@@ -77,19 +74,15 @@ namespace nsnake {
                         // Delegate the event to the current scene
                         auto newID = m_scene->processEvent(ch);
                         if (newID == m_scene->getID()) {
-                            // Same scene: continue
-                            break;
+                            break;// Same scene: continue
                         } else if (newID == SceneID::NONE) {
-                            // Null scene: exit
-                            done = true;
+                            done = true;// Null scene: exit
                         } else {
-                            m_scene = sceneMap.at(newID)(m_drawingContext);
+                            m_scene = sceneMap.at(newID)(m_drawingContext);// Next scene
                             if (m_scene == nullptr)
                                 throw std::runtime_error("Invalid scene");
-                            if (m_scene->hasFlag(SceneFlags::REDRAW)) {
-                                // Clear graphics drawn by the current scene and create the new scene from the returned ID
+                            if (m_scene->hasFlag(SceneFlags::REDRAW))
                                 erase();
-                            }
                         }
                         break;
                 }
@@ -100,7 +93,6 @@ namespace nsnake {
             // Clear screen
             erase();
             refresh();
-
             // De-initialize curses
             endwin();
         }
