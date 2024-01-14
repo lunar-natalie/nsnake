@@ -91,6 +91,7 @@ namespace nsnake {
         }
 
     private:
+        // Sets character data in the tile matrix
         void updateTileStates() {
             // Set player tiles
             m_tileMatrix->stateAt(m_player.head()) = TileState::PLAYER_HEAD;
@@ -106,6 +107,7 @@ namespace nsnake {
                 m_tileMatrix->stateAt(pos) = TileState::FOOD;
         }
 
+        // Handles entity logic
         void updateEntityStates() {
             // Check body/tail collision
             auto playerItr = std::find(m_player.body(), m_player.positions.end(), *m_player.head());
@@ -126,8 +128,8 @@ namespace nsnake {
             m_player.updatePosition(m_context);
         }
 
+        // Gets a random empty tile in the tile matrix
         [[nodiscard]] V2i randomFoodPos() const {
-            // Find a random empty tile in the matrix
             V2i pos;
             do {
                 pos = {m_rng->dist(0, m_context.extent.x - 1),
