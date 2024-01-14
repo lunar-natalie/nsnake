@@ -22,7 +22,8 @@ namespace nsnake {
     using SceneMap = std::unordered_map<SceneID, std::function<std::unique_ptr<Scene>(const DrawingContext &context)>>;
 
     class Application {
-        const static SceneMap sceneMap;
+        static const SceneMap sceneMap;
+
         ApplicationContext m_appContext;
         DrawingContext m_drawingContext;
         std::unique_ptr<Scene> m_scene;
