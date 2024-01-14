@@ -18,7 +18,7 @@
 #include "Utils/Window.h"
 
 namespace nsnake {
-    // Map of scene IDs to functions returning class instances
+    // Map of scene IDs to functions each returning a new scene instance
     using SceneMap = std::unordered_map<SceneID, std::function<std::unique_ptr<Scene>(const DrawingContext &context)>>;
 
     class Application {
