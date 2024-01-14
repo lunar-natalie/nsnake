@@ -28,7 +28,7 @@ namespace nsnake {
 
         std::unique_ptr<TileMatrix> m_tileMatrix;
         Player m_player;
-        std::vector<V2i> m_food;
+        std::vector<V2i> m_food;             // Food positions
         static const int FOOD_FREQUENCY = 30;// 1 per every nth tile
 
     public:
