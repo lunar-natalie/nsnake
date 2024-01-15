@@ -1,5 +1,3 @@
-⚠️ Under construction ⚠️
-
 # nSnake
 
 ![License](https://img.shields.io/github/license/lunar-natalie/nsnake)
@@ -7,6 +5,8 @@
 ![Linter Status](https://img.shields.io/github/actions/workflow/status/lunar-natalie/nsnake/lint.yml?label=linter)
 
 Text-based console Snake clone for *nix systems, using a modern C++ project design.
+
+⚠️ Under construction ⚠️
 
 ## Requirements
 
