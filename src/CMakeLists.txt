@@ -13,7 +13,6 @@ add_executable(nSnake main.cpp
         Utils/Window.h
         Scenes/KillScene.h
 )
-target_include_directories(nSnake
-        PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CURSES_INCLUDE_DIRS})
+target_include_directories(nSnake PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CURSES_INCLUDE_DIRS})
 target_link_libraries(nSnake PRIVATE ${CURSES_LIBRARIES} argparse::argparse)
 target_precompile_headers(nSnake PRIVATE "<curses.h>")
