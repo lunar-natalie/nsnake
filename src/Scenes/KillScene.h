@@ -13,7 +13,7 @@ namespace nsnake {
         WINDOW *m_overlay;
 
     public:
-        explicit KillScene(const DrawingContext &context)
+        explicit KillScene(const GraphicsContext &context)
             : Scene(context, SceneID::KILL, SceneFlags::SUBWIN) {// Implicit no redraw
             m_overlay = subwin(stdscr, m_context.extent.y, m_context.extent.x, 0, 0);
         }

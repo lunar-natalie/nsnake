@@ -19,13 +19,12 @@
 
 namespace nsnake {
     // Map of scene IDs to functions each returning a new scene instance
-    using SceneMap = std::unordered_map<SceneID, std::function<std::unique_ptr<Scene>(const DrawingContext &context)>>;
+    using SceneMap = std::unordered_map<SceneID, std::function<std::unique_ptr<Scene>(const GraphicsContext &context)>>;
 
     class Application {
         static const SceneMap sceneMap;
-
         ApplicationContext m_appContext;
-        DrawingContext m_drawingContext;
+        GraphicsContext m_gfxContext;
         std::unique_ptr<Scene> m_scene;
 
     public:
@@ -46,10 +45,10 @@ namespace nsnake {
             // Initialize contexts
             auto border = V2i::uniform(ApplicationContext::borderWidth);
             m_appContext = {.windowExtent = getExtent(stdscr)};
-            m_drawingContext = {.extent = m_appContext.windowExtent - (2 * border), .offset = border};
+            m_gfxContext = {.extent = m_appContext.windowExtent - (2 * border), .offset = border};
 
             // Setup initial scene
-            m_scene = sceneMap.at(initialScene)(m_drawingContext);
+            m_scene = sceneMap.at(initialScene)(m_gfxContext);
         }
 
         void start() {
@@ -85,7 +84,7 @@ namespace nsnake {
                             done = true;
                         } else {
                             // Next scene
-                            m_scene = sceneMap.at(newID)(m_drawingContext);
+                            m_scene = sceneMap.at(newID)(m_gfxContext);
                             if (m_scene == nullptr)
                                 throw std::runtime_error("Invalid scene");
                             if (m_scene->hasFlag(SceneFlags::REDRAW))
@@ -108,7 +107,7 @@ namespace nsnake {
         void updateContext() {
             auto &oldExtent = m_appContext.windowExtent;
             auto newExtent = getExtent(stdscr);
-            m_drawingContext.extent += newExtent - oldExtent;
+            m_gfxContext.extent += newExtent - oldExtent;
             oldExtent = newExtent;
         }
     };

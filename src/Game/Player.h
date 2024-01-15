@@ -35,7 +35,7 @@ namespace nsnake {
                 positions.push_back({c_head()->x, c_head()->y + i});
         }
 
-        void updatePosition(const DrawingContext &dc) {
+        void updatePosition(const GraphicsContext &dc) {
             // Get next position
             auto rawPos = *head() + static_cast<V2i>(velocity);
             // Cap position to matrix area

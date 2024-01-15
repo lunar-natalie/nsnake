@@ -22,11 +22,11 @@ namespace nsnake {
     class Scene {
     protected:
         const SceneID m_id;
-        const DrawingContext &m_context;
+        const GraphicsContext &m_context;
         const unsigned m_flags;
 
     public:
-        explicit Scene(const DrawingContext &context, SceneID id, unsigned flags = SceneFlags::REDRAW)
+        explicit Scene(const GraphicsContext &context, SceneID id, unsigned flags = SceneFlags::REDRAW)
             : m_context{context},
               m_id{id},
               m_flags{flags} {}

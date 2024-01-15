@@ -11,7 +11,7 @@ namespace nsnake {
         static const int borderWidth = 1;
     };
 
-    struct DrawingContext {
+    struct GraphicsContext {
         V2i extent{};
         V2i offset{};
     };

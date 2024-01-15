@@ -32,7 +32,7 @@ namespace nsnake {
         static const int FOOD_FREQUENCY = 30;// 1 per every nth tile
 
     public:
-        explicit GameScene(const DrawingContext &context) : Scene(context, SceneID::GAME) {
+        explicit GameScene(const GraphicsContext &context) : Scene(context, SceneID::GAME) {
             if (V2i::product(context.extent) < std::pow(Player::MIN_LENGTH, 2))
                 throw std::runtime_error("Invalid window size");
 
