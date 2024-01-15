@@ -32,7 +32,8 @@ int main(int argc, char *argv[]) {
 #endif//NDEBUG
     try {
         program.parse_args(argc, argv);
-    } catch (std::exception &e) {// Invalid argument
+    } catch (std::exception &e) {
+        // Invalid argument
         std::cerr << e.what() << std::endl;
         std::cerr << program;// Show usage
         return 1;
