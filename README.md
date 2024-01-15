@@ -15,3 +15,4 @@ Text-based console Snake clone for *nix systems, using a modern C++ project desi
   - Clang >= 16
   - GCC >= 12
   - AppleClang >= 14
+- vcpkg
