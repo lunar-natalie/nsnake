@@ -13,14 +13,18 @@ namespace nsnake {
         WINDOW *m_overlay;
 
     public:
-        explicit KillScene(const GraphicsContext &context)
+        explicit KillScene(GraphicsContext &context)
             : Scene(context, SceneID::KILL, static_cast<SceneFlags_t>(SceneFlags::SUBWIN)) {
-            m_overlay = subwin(stdscr, m_context.extent.y, m_context.extent.x, 0, 0);
+            auto dimensions = V2i(m_context.extent / 2);
+            auto offset = V2i(dimensions / 2);
+            m_overlay = subwin(stdscr, dimensions.y, dimensions.x, offset.y, offset.x);
+            setWindow(m_context, m_overlay, dimensions);
         }
 
         void update() override {
-            putStrCenter("GAME OVER", m_context, -1, m_overlay);
-            putStrCenter("Press RETURN to play again", m_context, 1, m_overlay);
+            putStrCenter("GAME OVER", m_context, -2);
+            putStrCenter("Press RETURN to play again", m_context);
+            wrefresh(m_overlay);
         }
 
         SceneID processEvent(int ch) override {

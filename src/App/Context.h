@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <stdexcept>
+
 #include "Utils/Geometry.h"
 
 namespace nsnake {
@@ -12,7 +14,13 @@ namespace nsnake {
     };
 
     struct GraphicsContext {
+        WINDOW *window{};
         V2i extent{};
         V2i offset{};
     };
+
+    void setWindow(GraphicsContext &context, WINDOW *&win, V2i dimensions) {
+        context.window = win;
+        context.extent = dimensions;
+    }
 }// namespace nsnake

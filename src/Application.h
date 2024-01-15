@@ -19,7 +19,7 @@
 
 namespace nsnake {
     // Map of scene IDs to functions each returning a new scene instance
-    using SceneMap = std::unordered_map<SceneID, std::function<std::unique_ptr<Scene>(const GraphicsContext &context)>>;
+    using SceneMap = std::unordered_map<SceneID, std::function<std::unique_ptr<Scene>(GraphicsContext &context)>>;
 
     class Application {
         static const SceneMap sceneMap;
@@ -43,9 +43,8 @@ namespace nsnake {
             nodelay(stdscr, TRUE);   // Disable blocking on input
 
             // Initialize contexts
-            auto border = V2i::uniform(ApplicationContext::borderWidth);
             m_appContext = {.windowExtent = getExtent(stdscr)};
-            m_gfxContext = {.extent = m_appContext.windowExtent - (2 * border), .offset = border};
+            m_gfxContext = initGfxContext();
 
             // Setup initial scene
             m_scene = sceneMap.at(initialScene)(m_gfxContext);
@@ -56,17 +55,18 @@ namespace nsnake {
             do {
                 if (m_scene->hasFlag(SceneFlags::SUBWIN))
                     touchwin(stdscr);
-                m_scene->update();
 
                 // Draw default window border
-                border(0, 0, 0, 0, 0, 0, 0, 0);
+                wborder(m_gfxContext.window, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                m_scene->update();
 
                 // Process events
                 auto ch = getch();// Get input and refresh
                 switch (ch) {
                     case KEY_RESIZE:
-                        updateContext();
-                        erase();
+                        updateContexts();
+                        werase(m_gfxContext.window);
                         break;
 
                     case 'q':// Exit
@@ -83,10 +83,11 @@ namespace nsnake {
                             done = true;
                         } else {
                             // Next scene
+                            m_gfxContext = initGfxContext();
                             m_scene = sceneMap.at(newID)(m_gfxContext);
                             if (m_scene == nullptr)
                                 throw std::runtime_error("Invalid scene");
-                            erase();
+                            werase(m_gfxContext.window);
                         }
                         break;
                 }
@@ -102,7 +103,12 @@ namespace nsnake {
         }
 
     private:
-        void updateContext() {
+        [[nodiscard]] GraphicsContext initGfxContext() const {
+            auto border = V2i::uniform(ApplicationContext::borderWidth);
+            return {.window = stdscr, .extent = m_appContext.windowExtent - (2 * border), .offset = border};
+        }
+
+        void updateContexts() {
             auto &oldExtent = m_appContext.windowExtent;
             auto newExtent = getExtent(stdscr);
             m_gfxContext.extent += newExtent - oldExtent;

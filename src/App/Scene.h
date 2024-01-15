@@ -6,6 +6,7 @@
 #include <type_traits>
 
 #include "App/Context.h"
+#include "Utils/Window.h"
 
 namespace nsnake {
     enum class SceneID {
@@ -35,11 +36,11 @@ namespace nsnake {
     class Scene {
     protected:
         const SceneID m_id;
-        const GraphicsContext &m_context;
         const SceneFlags_t m_flags;
+        GraphicsContext &m_context;
 
     public:
-        explicit Scene(const GraphicsContext &context, SceneID id, SceneFlags_t flags = static_cast<SceneFlags_t>(SceneFlags::NONE))
+        explicit Scene(GraphicsContext &context, SceneID id, SceneFlags_t flags = static_cast<SceneFlags_t>(SceneFlags::NONE))
             : m_context{context},
               m_id{id},
               m_flags{flags} {}
