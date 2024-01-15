@@ -66,8 +66,7 @@ namespace nsnake {
                 switch (ch) {
                     case KEY_RESIZE:
                         updateContext();
-                        if (m_scene->hasFlag(SceneFlags::REDRAW))
-                            erase();
+                        erase();
                         break;
 
                     case 'q':// Exit
@@ -87,8 +86,7 @@ namespace nsnake {
                             m_scene = sceneMap.at(newID)(m_gfxContext);
                             if (m_scene == nullptr)
                                 throw std::runtime_error("Invalid scene");
-                            if (m_scene->hasFlag(SceneFlags::REDRAW))
-                                erase();
+                            erase();
                         }
                         break;
                 }

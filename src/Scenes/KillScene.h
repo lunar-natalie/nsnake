@@ -14,7 +14,7 @@ namespace nsnake {
 
     public:
         explicit KillScene(const GraphicsContext &context)
-            : Scene(context, SceneID::KILL, SceneFlags::SUBWIN) {// Implicit no redraw
+            : Scene(context, SceneID::KILL, static_cast<SceneFlags_t>(SceneFlags::SUBWIN)) {
             m_overlay = subwin(stdscr, m_context.extent.y, m_context.extent.x, 0, 0);
         }
 

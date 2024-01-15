@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <type_traits>
+
 #include "App/Context.h"
 
 namespace nsnake {
@@ -13,20 +15,31 @@ namespace nsnake {
         KILL
     };
 
-    enum SceneFlags : unsigned {
-        NONE [[maybe_unused]],
-        REDRAW,
-        SUBWIN
+    enum class SceneFlags : unsigned {
+        NONE = 0,
+        SUBWIN = 1 << 0
     };
+
+    using SceneFlags_t = std::underlying_type<SceneFlags>::type;
+
+    inline constexpr SceneFlags_t operator|(const SceneFlags &lhs, const SceneFlags &rhs) {
+        return static_cast<SceneFlags_t>(lhs) | static_cast<SceneFlags_t>(rhs);
+    }
+    inline constexpr SceneFlags_t operator&(const SceneFlags_t &lhs, const SceneFlags &rhs) {
+        return lhs & static_cast<SceneFlags_t>(rhs);
+    }
+    inline constexpr bool operator==(const SceneFlags_t &lhs, const SceneFlags &rhs) {
+        return lhs == static_cast<SceneFlags_t>(rhs);
+    }
 
     class Scene {
     protected:
         const SceneID m_id;
         const GraphicsContext &m_context;
-        const unsigned m_flags;
+        const SceneFlags_t m_flags;
 
     public:
-        explicit Scene(const GraphicsContext &context, SceneID id, unsigned flags = SceneFlags::REDRAW)
+        explicit Scene(const GraphicsContext &context, SceneID id, SceneFlags_t flags = static_cast<SceneFlags_t>(SceneFlags::NONE))
             : m_context{context},
               m_id{id},
               m_flags{flags} {}
@@ -39,7 +52,7 @@ namespace nsnake {
         [[nodiscard]] auto getID() const { return m_id; }
 
         [[nodiscard]] constexpr bool hasFlag(SceneFlags f) const {
-            return (m_flags & f) == 1;
+            return (m_flags & f) == f;
         }
     };
 }// namespace nsnake
