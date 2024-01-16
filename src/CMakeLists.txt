@@ -3,8 +3,10 @@ add_executable(nSnake main.cpp
         App/Scene.h
         Application.h
         Game/Clock.h
+        Game/Food.h
         Game/Player.h
         Game/TileMatrix.h
+        ProgramInfo.h
         Scenes/GameScene.h
         Scenes/KillScene.h
         Scenes/MenuScene.h
@@ -12,8 +14,6 @@ add_executable(nSnake main.cpp
         Utils/IO.h
         Utils/Random.h
         Utils/Window.h
-        Game/Food.h
-        ProgramInfo.h
 )
 target_compile_definitions(nSnake
         PRIVATE NSNAKE_VERSION=\"${CMAKE_PROJECT_VERSION}\")
