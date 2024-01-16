@@ -36,7 +36,7 @@ namespace nsnake {
     public:
         explicit GameScene(Context &ctx)
             : Scene(ctx, SceneID::GAME, SceneFlags::SUBWIN | SceneFlags::BORDER) {
-            // Create window
+            // Create fullscreen window
             if (auto win = subwin(stdscr, 0, 0, 0, 0); win != nullptr) {
                 m_window = win;
             } else {
