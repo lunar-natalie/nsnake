@@ -3,13 +3,20 @@
 
 #pragma once
 
+#include <stdexcept>
+
 #include "App/Scene.h"
 #include "Utils/IO.h"
 
 namespace nsnake {
     class MenuScene : public Scene {
+        static const int LINE_COUNT = 1;
+
     public:
-        explicit MenuScene(GraphicsContext &context) : Scene(context, SceneID::MENU) {}
+        explicit MenuScene(Context &ctx) : Scene(ctx, SceneID::MENU) {
+            if (ctx.extent.y < LINE_COUNT)
+                throw std::runtime_error("Invalid window size");
+        }
 
         void update() override {
             putStrCenter("Press RETURN to begin", m_context);

@@ -5,22 +5,23 @@
 
 #include <stdexcept>
 
+#include <curses.h>
+
 #include "Utils/Geometry.h"
+#include "Utils/Window.h"
 
 namespace nsnake {
-    struct ApplicationContext {
-        V2i windowExtent{};
-        static const int borderWidth = 1;
-    };
-
-    struct GraphicsContext {
+    struct Context {
         WINDOW *window{};
         V2i extent{};
         V2i offset{};
+        static const int borderWidth = 1;
     };
 
-    void setWindow(GraphicsContext &context, WINDOW *&win, V2i dimensions) {
-        context.window = win;
-        context.extent = dimensions;
+    constexpr void setWindow(Context &ctx, WINDOW *win) {
+        auto border = V2i::uniform(Context::borderWidth);
+        ctx.window = win;
+        ctx.extent = getExtent(win) - (2 * border);
+        ctx.offset = border;
     }
 }// namespace nsnake

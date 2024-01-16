@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <stdexcept>
+
 #include <curses.h>
 
 #include <App/Scene.h>
@@ -10,20 +12,26 @@
 
 namespace nsnake {
     class KillScene : public Scene {
+        static const int LINE_COUNT = 7;
         WINDOW *m_overlay;
 
     public:
-        explicit KillScene(GraphicsContext &context)
-            : Scene(context, SceneID::KILL, static_cast<SceneFlags_t>(SceneFlags::SUBWIN)) {
-            auto dimensions = V2i(m_context.extent / 2);
-            auto offset = V2i(dimensions / 2);
-            m_overlay = subwin(stdscr, dimensions.y, dimensions.x, offset.y, offset.x);
-            setWindow(m_context, m_overlay, dimensions);
+        explicit KillScene(Context &ctx)
+            : Scene(ctx, SceneID::KILL, SceneFlags::SUBWIN | SceneFlags::BORDER) {
+            // Create centered overlay window
+            V2i extent{.x = m_context.extent.x / 2, .y = LINE_COUNT};
+            V2i offset = V2i(m_context.extent / 2) - V2i(extent / 2);
+            if (auto win = subwin(stdscr, extent.y, extent.x, offset.y, offset.x); win != nullptr) {
+                m_overlay = win;
+                setWindow(m_context, m_overlay);
+            } else {
+                throw std::runtime_error("Failed to create overlay window");
+            }
         }
 
         void update() override {
-            putStrCenter("GAME OVER", m_context, -2);
-            putStrCenter("Press RETURN to play again", m_context);
+            putStrCenter("GAME OVER", m_context, -1);
+            putStrCenter("Press RETURN to play again", m_context, 1);
             wrefresh(m_overlay);
         }
 

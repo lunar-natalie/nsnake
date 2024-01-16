@@ -10,6 +10,7 @@
 
 namespace nsnake {
     struct Player {
+        static const int MIN_LENGTH = 3;
         V2f speed = V2f::uniform(1.0f);
         V2f velocity{};
         bool isAlive = true;
@@ -23,8 +24,6 @@ namespace nsnake {
         PositionList::iterator body() { return ++positions.begin(); /* 2nd element */ }
         PositionList::iterator tail() { return --positions.end(); /* Last element */ }
 
-        static const int MIN_LENGTH = 3;
-
         explicit Player() = default;
 
         explicit Player(const V2i &startPos, int length = MIN_LENGTH)
@@ -35,7 +34,7 @@ namespace nsnake {
                 positions.push_back({c_head()->x, c_head()->y + i});
         }
 
-        void updatePosition(const GraphicsContext &dc) {
+        void updatePosition(const Context &dc) {
             // Get next position
             auto rawPos = *head() + static_cast<V2i>(velocity);
             // Cap position to matrix area

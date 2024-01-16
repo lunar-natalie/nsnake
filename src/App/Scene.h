@@ -17,14 +17,19 @@ namespace nsnake {
     };
 
     enum class SceneFlags : unsigned {
-        NONE = 0,
-        SUBWIN = 1 << 0
+        NONE [[maybe_unused]] = 0,
+        SUBWIN = 1 << 1,
+        BORDER = 1 << 2,
+        REDRAW = 1 << 3,
+        RESIZE = 1 << 4,
     };
 
     using SceneFlags_t = std::underlying_type<SceneFlags>::type;
-
     inline constexpr SceneFlags_t operator|(const SceneFlags &lhs, const SceneFlags &rhs) {
         return static_cast<SceneFlags_t>(lhs) | static_cast<SceneFlags_t>(rhs);
+    }
+    inline constexpr SceneFlags_t operator|(const SceneFlags_t &lhs, const SceneFlags &rhs) {
+        return lhs | static_cast<SceneFlags_t>(rhs);
     }
     inline constexpr SceneFlags_t operator&(const SceneFlags_t &lhs, const SceneFlags &rhs) {
         return lhs & static_cast<SceneFlags_t>(rhs);
@@ -37,20 +42,21 @@ namespace nsnake {
     protected:
         const SceneID m_id;
         const SceneFlags_t m_flags;
-        GraphicsContext &m_context;
+        Context &m_context;
 
     public:
-        explicit Scene(GraphicsContext &context, SceneID id, SceneFlags_t flags = static_cast<SceneFlags_t>(SceneFlags::NONE))
-            : m_context{context},
-              m_id{id},
-              m_flags{flags} {}
+        explicit Scene(Context &ctx, SceneID id, SceneFlags_t flags = SceneFlags::BORDER | SceneFlags::REDRAW | SceneFlags::RESIZE)
+            : m_context{ctx}, m_id{id}, m_flags{flags} {
+            if (!hasFlag(SceneFlags::SUBWIN))
+                setWindow(m_context, stdscr);
+        }
 
         virtual ~Scene() = default;
 
         virtual void update() = 0;
         virtual SceneID processEvent(int ch) = 0;
 
-        [[nodiscard]] auto getID() const { return m_id; }
+        [[nodiscard]] constexpr auto getID() const { return m_id; }
 
         [[nodiscard]] constexpr bool hasFlag(SceneFlags f) const {
             return (m_flags & f) == f;

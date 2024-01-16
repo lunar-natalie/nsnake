@@ -20,15 +20,6 @@ namespace nsnake {
         FOOD
     };
 
-    // Map of tile states to character data
-    const std::map<TileState, chtype> characterMap{
-            {TileState::EMPTY, ' '},
-            {TileState::PLAYER_HEAD, 'H'},
-            {TileState::PLAYER_BODY, 'B'},
-            {TileState::PLAYER_TAIL, 'T'},
-            {TileState::FOOD, 'F'},
-    };
-
     // Iterable 2D vector dividing the screen area into rows and columns of tiles, each storing a TileState.
     class TileMatrix {
         using Columns = std::vector<TileState>;
@@ -69,5 +60,14 @@ namespace nsnake {
                     callback(pos, *colItr);
             }
         }
+    };
+
+    // Map of tile states to character data
+    const std::map<TileState, chtype> characterMap{
+            {TileState::EMPTY, ' '},
+            {TileState::PLAYER_HEAD, 'H'},
+            {TileState::PLAYER_BODY, 'B'},
+            {TileState::PLAYER_TAIL, 'T'},
+            {TileState::FOOD, 'F'},
     };
 }// namespace nsnake

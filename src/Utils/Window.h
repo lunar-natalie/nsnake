@@ -8,7 +8,7 @@
 #include "Utils/Geometry.h"
 
 namespace nsnake {
-    inline V2i getExtent(const WINDOW *window) {
-        return {getmaxx(window), getmaxy(window)};
+    inline V2i getExtent(const WINDOW *win) {
+        return {getmaxx(win), getmaxy(win)};
     }
 }// namespace nsnake

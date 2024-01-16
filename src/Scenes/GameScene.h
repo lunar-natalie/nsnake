@@ -11,13 +11,17 @@
 
 #include "App/Scene.h"
 #include "Game/Clock.h"
+#include "Game/Food.h"
 #include "Game/Player.h"
 #include "Game/TileMatrix.h"
+#include "Utils/Geometry.h"
 #include "Utils/IO.h"
 #include "Utils/Random.h"
 
 namespace nsnake {
     class GameScene : public Scene {
+        WINDOW *m_window;
+
         std::unique_ptr<Clock> m_clock;
         Clock::time_point m_timeRef;
         TickRate m_tickRate = 100ms;
@@ -25,26 +29,31 @@ namespace nsnake {
         static constexpr TickRate TICK_ACCEL = 5ms;
 
         std::unique_ptr<RandomIntGenerator> m_rng;
-
         std::unique_ptr<TileMatrix> m_tileMatrix;
+
         Player m_player;
-        std::vector<V2i> m_food;             // Food positions
-        static const int FOOD_FREQUENCY = 30;// 1 per every nth tile
+        Food m_food;
 
     public:
-        explicit GameScene(GraphicsContext &context) : Scene(context, SceneID::GAME) {
-            if (V2i::product(context.extent) < std::pow(Player::MIN_LENGTH, 2))
+        explicit GameScene(Context &ctx)
+            : Scene(ctx, SceneID::GAME, SceneFlags::SUBWIN | SceneFlags::BORDER) {
+            // Create window
+            if (V2i::product(ctx.extent) < std::pow(Player::MIN_LENGTH, 2))
                 throw std::runtime_error("Invalid window size");
+            m_window = subwin(stdscr, 0, 0, 0, 0);
+            setWindow(m_context, m_window);
 
+            // Initialize objects
             m_clock = std::make_unique<Clock>();
             m_timeRef = m_clock->now();
             m_rng = std::make_unique<RandomIntGenerator>();
-            m_tileMatrix = std::make_unique<TileMatrix>(context.extent);
+            m_tileMatrix = std::make_unique<TileMatrix>(m_context.extent);
 
+            // Initialize entities
             m_player = Player(m_tileMatrix->getCenter());
             updateTileStates();
-            for (auto i = 0; i < foodCount(); ++i)
-                m_food.push_back(randomFoodPos());
+            for (auto i = 0; i < V2i::product(m_context.extent) / Food::FREQUENCY; ++i)
+                m_food.positions.push_back(Food::randomPos(m_tileMatrix, m_rng, m_context));
         }
 
         void update() override {
@@ -67,8 +76,8 @@ namespace nsnake {
 
         SceneID processEvent(int ch) override {
             if (!m_player.isAlive)
+                // Game over
                 return SceneID::KILL;
-
             switch (ch) {
                 // Movement
                 case KEY_RIGHT:
@@ -86,7 +95,6 @@ namespace nsnake {
                 default:
                     break;
             }
-
             return m_id;
         }
 
@@ -103,22 +111,23 @@ namespace nsnake {
             m_tileMatrix->stateAt(m_player.tail()) = TileState::PLAYER_TAIL;
 
             // Set food tiles
-            for (auto &pos: m_food)
+            for (auto &pos: m_food.positions)
                 m_tileMatrix->stateAt(pos) = TileState::FOOD;
         }
 
         // Handles entity logic
         void updateEntityStates() {
-            // Check body/tail collision
+            // Check player collision
             auto playerItr = std::find(m_player.body(), m_player.positions.end(), *m_player.head());
             if (playerItr != m_player.positions.end())
                 m_player.isAlive = false;
 
             // Check food collision
-            auto foodItr = std::find(m_food.begin(), m_food.end(), *m_player.head());
-            if (foodItr != m_food.end()) {
+            auto foodItr = std::find(m_food.positions.begin(), m_food.positions.end(), *m_player.head());
+            if (foodItr != m_food.positions.end()) {
                 m_player.extend();
-                *foodItr = randomFoodPos();
+                // Replace with new food item
+                *foodItr = Food::randomPos(m_tileMatrix, m_rng, m_context);
                 // Accelerate
                 if (m_tickRate > MIN_TICK)
                     m_tickRate = std::max(m_tickRate - TICK_ACCEL, MIN_TICK);
@@ -128,18 +137,9 @@ namespace nsnake {
             m_player.updatePosition(m_context);
         }
 
-        // Gets a random empty tile in the matrix
-        [[nodiscard]] V2i randomFoodPos() const {
-            V2i pos;
-            do {
-                pos = {m_rng->dist(0, m_context.extent.x - 1),
-                       m_rng->dist(0, m_context.extent.y - 1)};
-            } while (m_tileMatrix->stateAt(pos) != TileState::EMPTY);
-            return pos;
-        }
-
-        [[nodiscard]] int foodCount() const {
-            return V2i::product(m_context.extent) / FOOD_FREQUENCY;
+    public:
+        ~GameScene() override {
+            delwin(m_window);
         }
     };
 }// namespace nsnake
