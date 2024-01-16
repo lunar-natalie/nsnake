@@ -18,7 +18,7 @@ namespace nsnake {
         static const int BORDER_WIDTH = 1;
     };
 
-    constexpr void setWindow(Context &ctx, WINDOW *win) {
+    void setWindow(Context &ctx, WINDOW *win) {
         auto border = V2i::uniform(Context::BORDER_WIDTH);
         ctx.window = win;
         ctx.extent = getExtent(win) - (2 * border);
