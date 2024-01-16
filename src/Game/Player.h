@@ -50,14 +50,10 @@ namespace nsnake {
     void extendPlayer(Player &player) {
         auto newTail = *player.tail();
         // Adjust new position in reverse direction to movement
-        if (player.velocity.x > 0) {
-            --newTail.x;// Up
-        } else if (player.velocity.x < 0) {
-            ++newTail.x;// Down
-        } else if (player.velocity.y > 0) {
-            --newTail.y;// Left
-        } else {
-            ++newTail.y;// Right
+        if (player.velocity.x != 0) {
+            newTail.x += player.velocity.x > 0 ? 1 : -1;
+        } else if (player.velocity.y != 0) {
+            newTail.y -= player.velocity.y > 0 ? 1 : -1;
         }
         player.positions.push_back(newTail);
     }
