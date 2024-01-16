@@ -21,7 +21,7 @@ namespace nsnake {
             // Create centered overlay window
             V2i extent{.x = m_context.extent.x / 2, .y = LINE_COUNT};
             V2i offset = V2i(m_context.extent / 2) - V2i(extent / 2);
-            if (auto win = subwin(stdscr, extent.y, extent.x, offset.y, offset.x); win == nullptr) {
+            if (auto win = subwin(stdscr, extent.y, extent.x, offset.y, offset.x); win != nullptr) {
                 m_overlay = win;
             } else {
                 throw std::runtime_error("Failed to create overlay window");

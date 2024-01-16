@@ -37,10 +37,14 @@ namespace nsnake {
         explicit GameScene(Context &ctx)
             : Scene(ctx, SceneID::GAME, SceneFlags::SUBWIN | SceneFlags::BORDER) {
             // Create window
-            if (V2i::product(ctx.extent) < std::pow(Player::MIN_LENGTH, 2))
-                throw std::runtime_error("Invalid window size");
-            m_window = subwin(stdscr, 0, 0, 0, 0);
+            if (auto win = subwin(stdscr, 0, 0, 0, 0); win != nullptr) {
+                m_window = win;
+            } else {
+                throw std::runtime_error("Failed to create game window");
+            }
             setWindow(m_context, m_window);
+            if (V2i::product(m_context.extent) < std::pow(Player::MIN_LENGTH, 2))
+                throw std::runtime_error("Invalid window size");
 
             // Initialize objects
             m_clock = std::make_unique<Clock>();
