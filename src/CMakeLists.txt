@@ -26,4 +26,7 @@ target_link_libraries(nSnake
         ${CURSES_LIBRARIES}
         argparse::argparse)
 target_precompile_headers(nSnake
-        PRIVATE "<curses.h>")
+        PRIVATE
+        "<argparse/argparse.hpp>"
+        "<curses.h>"
+)
