@@ -4,26 +4,20 @@
 #include <clocale>
 #include <iostream>
 #include <stdexcept>
-#include <string>
 
 #include <argparse/argparse.hpp>
 
 #include "Application.h"
+#include "ProgramInfo.h"
 
 using namespace nsnake;
-
-const std::string programName = "nSnake";
-const std::string versionInfo = programName + " " NSNAKE_VERSION "\n"
-                                              "Copyright (c) 2024 Natalie Wiggins. All rights reserved.\n"
-                                              "Provided under the terms of the BSD 3-Clause license.\n"
-                                              "You should have received a copy of the license along with this program. If not, see <https://opensource.org/license/bsd-3-clause/>.";
 
 int main(int argc, char *argv[]) {
     // Assume ISO-8859-1 character set for curses
     setlocale(LC_ALL, "");
 
     // Parse arguments
-    argparse::ArgumentParser program(programName, versionInfo);
+    argparse::ArgumentParser program(PROGRAM_NAME, VERSION_INFO);
 #ifndef NDEBUG
     program.add_argument("-n", "--no-menu")
             .help("skips the initial menu scene")
@@ -56,6 +50,5 @@ int main(int argc, char *argv[]) {
 #endif//NDEBUG
         return 1;
     }
-
     return 0;
 }

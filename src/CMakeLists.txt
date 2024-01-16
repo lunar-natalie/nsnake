@@ -13,6 +13,7 @@ add_executable(nSnake main.cpp
         Utils/Random.h
         Utils/Window.h
         Game/Food.h
+        ProgramInfo.h
 )
 target_compile_definitions(nSnake
         PRIVATE NSNAKE_VERSION=\"${CMAKE_PROJECT_VERSION}\")
