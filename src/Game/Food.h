@@ -14,7 +14,7 @@
 namespace nsnake {
     struct Food {
         static const int FREQUENCY = 30;// 1 per every nth tile
-        std::vector<V2i> positions;
+        std::vector<V2i> positions{};
     };
 
     V2i randomFoodPosition(const std::unique_ptr<TileMatrix> &mat, const std::unique_ptr<RandomIntGenerator> &rng, const Context &ctx) {
