@@ -4,6 +4,7 @@
 #pragma once
 
 namespace nsnake {
+    // 2D vector
     template<typename T>
     struct Vec2;
     using V2i = Vec2<int>;
