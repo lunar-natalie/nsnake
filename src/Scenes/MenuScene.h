@@ -14,7 +14,7 @@ namespace nsnake {
 
     public:
         explicit MenuScene(Context &ctx) : Scene(ctx, SceneID::MENU) {
-            if (ctx.extent.y < LINE_COUNT)
+            if (m_context.extent.y < LINE_COUNT)
                 throw std::runtime_error("Invalid window size");
         }
 
