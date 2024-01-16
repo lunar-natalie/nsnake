@@ -49,10 +49,10 @@ namespace nsnake {
             m_tileMatrix = std::make_unique<TileMatrix>(m_context.extent);
 
             // Initialize entities
-            m_player = Player(m_tileMatrix->getCenter());
+            initPlayer(m_player, m_tileMatrix->getCenter());
             updateTileStates();
             for (auto i = 0; i < V2i::product(m_context.extent) / Food::FREQUENCY; ++i)
-                m_food.positions.push_back(Food::randomPos(m_tileMatrix, m_rng, m_context));
+                m_food.positions.push_back(randomFoodPosition(m_tileMatrix, m_rng, m_context));
         }
 
         void update() override {
@@ -124,16 +124,16 @@ namespace nsnake {
             // Check food collision
             auto foodItr = std::find(m_food.positions.begin(), m_food.positions.end(), *m_player.head());
             if (foodItr != m_food.positions.end()) {
-                m_player.extend();
+                extendPlayer(m_player);
                 // Replace with new food item
-                *foodItr = Food::randomPos(m_tileMatrix, m_rng, m_context);
+                *foodItr = randomFoodPosition(m_tileMatrix, m_rng, m_context);
                 // Accelerate
                 if (m_tickRate > MIN_TICK)
                     m_tickRate = std::max(m_tickRate - TICK_ACCEL, MIN_TICK);
             }
 
             // Move player
-            m_player.updatePosition(m_context);
+            updatePlayerPosition(m_player, m_context);
         }
 
     public:

@@ -15,14 +15,14 @@ namespace nsnake {
     struct Food {
         static const int FREQUENCY = 30;// 1 per every nth tile
         std::vector<V2i> positions;
-
-        static V2i randomPos(const std::unique_ptr<TileMatrix> &mat, const std::unique_ptr<RandomIntGenerator> &rng, const Context &ctx) {
-            V2i pos;
-            do {
-                pos = {rng->dist(0, ctx.extent.x - 1),
-                       rng->dist(0, ctx.extent.y - 1)};
-            } while (mat->stateAt(pos) != TileState::EMPTY);
-            return pos;
-        }
     };
+
+    V2i randomFoodPosition(const std::unique_ptr<TileMatrix> &mat, const std::unique_ptr<RandomIntGenerator> &rng, const Context &ctx) {
+        V2i pos;
+        do {
+            pos = {rng->dist(0, ctx.extent.x - 1),
+                   rng->dist(0, ctx.extent.y - 1)};
+        } while (mat->stateAt(pos) != TileState::EMPTY);
+        return pos;
+    }
 }// namespace nsnake
