@@ -17,8 +17,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          version: 16 # Clang
-          style: file
+          version: 16 # Clang version
+          style: file # Use .clang-format
+          tidy-checks: '' # Use .clang-tidy
           # Only update a single comment in PR threads
           thread-comments: ${{ github.event_name == 'pull_request' && 'update' }}
 
