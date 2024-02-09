@@ -13,11 +13,12 @@
 namespace nsnake {
     class KillScene : public Scene {
         static const int LINE_COUNT = 7;
-        WINDOW *m_overlay;
+        WINDOW * m_overlay;
 
     public:
-        explicit KillScene(Context &ctx)
-            : Scene(ctx, SceneID::KILL, SceneFlags::SUBWIN | SceneFlags::BORDER) {
+        explicit KillScene(Context & ctx)
+            : Scene(ctx, SceneID::KILL, SceneFlags::SUBWIN | SceneFlags::BORDER)
+        {
             // Create centered overlay window
             V2i extent{.x = m_context.extent.x / 2, .y = LINE_COUNT};
             V2i offset = V2i(m_context.extent / 2) - V2i(extent / 2);
@@ -29,19 +30,22 @@ namespace nsnake {
             setWindow(m_context, m_overlay);
         }
 
-        void update() override {
+        void update() override
+        {
             putStrCenter("GAME OVER", m_context, -1);
             putStrCenter("Press RETURN to play again", m_context, 1);
             wrefresh(m_overlay);
         }
 
-        SceneID processEvent(int ch) override {
+        SceneID processEvent(int ch) override
+        {
             if (ch == '\r')
                 return SceneID::GAME;
             return m_id;
         }
 
-        ~KillScene() override {
+        ~KillScene() override
+        {
             delwin(m_overlay);
         }
     };

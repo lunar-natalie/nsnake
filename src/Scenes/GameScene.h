@@ -19,7 +19,7 @@
 
 namespace nsnake {
     class GameScene : public Scene {
-        WINDOW *m_window;
+        WINDOW * m_window;
 
         std::unique_ptr<Clock> m_clock;
         Clock::time_point m_timeRef;
@@ -34,8 +34,9 @@ namespace nsnake {
         Food m_food;
 
     public:
-        explicit GameScene(Context &ctx)
-            : Scene(ctx, SceneID::GAME, SceneFlags::SUBWIN | SceneFlags::BORDER) {
+        explicit GameScene(Context & ctx)
+            : Scene(ctx, SceneID::GAME, SceneFlags::SUBWIN | SceneFlags::BORDER)
+        {
             // Create fullscreen window
             if (auto win = subwin(stdscr, 0, 0, 0, 0); win != nullptr) {
                 m_window = win;
@@ -59,9 +60,10 @@ namespace nsnake {
                 m_food.positions.push_back(randomFoodPosition(m_tileMatrix, m_rng, m_context));
         }
 
-        void update() override {
+        void update() override
+        {
             // Draw tiles
-            m_tileMatrix->iterate({[&](auto &pos, auto &state) {
+            m_tileMatrix->iterate({[&](auto & pos, auto & state) {
                 // Place the character corresponding to the tile state
                 if (auto el = characterMap.find(state); el != characterMap.end())
                     putCh(el->second, pos, m_context);
@@ -77,7 +79,8 @@ namespace nsnake {
             }
         }
 
-        SceneID processEvent(int ch) override {
+        SceneID processEvent(int ch) override
+        {
             if (!m_player.isAlive)
                 // Game over
                 return SceneID::KILL;
@@ -103,7 +106,8 @@ namespace nsnake {
 
     private:
         // Sets character data in the tile matrix
-        void updateTileStates() {
+        void updateTileStates()
+        {
             // Set player tiles
             m_tileMatrix->stateAt(m_player.head()) = TileState::PLAYER_HEAD;
             auto bodyItr = m_player.body();
@@ -114,12 +118,13 @@ namespace nsnake {
             m_tileMatrix->stateAt(m_player.tail()) = TileState::PLAYER_TAIL;
 
             // Set food tiles
-            for (auto &pos: m_food.positions)
+            for (auto & pos: m_food.positions)
                 m_tileMatrix->stateAt(pos) = TileState::FOOD;
         }
 
         // Handles entity logic
-        void updateEntityStates() {
+        void updateEntityStates()
+        {
             // Check player collision
             auto playerItr = std::find(m_player.body(), m_player.positions.end(), *m_player.head());
             if (playerItr != m_player.positions.end())
@@ -141,7 +146,8 @@ namespace nsnake {
         }
 
     public:
-        ~GameScene() override {
+        ~GameScene() override
+        {
             delwin(m_window);
         }
     };

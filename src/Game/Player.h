@@ -26,7 +26,8 @@ namespace nsnake {
         PositionList::iterator tail() { return --positions.end(); /* Last element */ }
     };
 
-    void initPlayer(Player &player, const V2i &startPos, int length = Player::MIN_LENGTH) {
+    void initPlayer(Player & player, const V2i & startPos, int length = Player::MIN_LENGTH)
+    {
         // Set the default upwards velocity
         player.velocity = {0.0f, -player.speed.y};
         // Push the initial head, body and tail positions, extending from the default direction (down)
@@ -35,7 +36,8 @@ namespace nsnake {
             player.positions.push_back({player.c_head()->x, player.c_head()->y + i});
     }
 
-    void updatePlayerPosition(Player &player, const Context &ctx) {
+    void updatePlayerPosition(Player & player, const Context & ctx)
+    {
         // Get next position
         auto rawPos = *player.head() + static_cast<V2i>(player.velocity);
         // Cap position to matrix area
@@ -47,7 +49,8 @@ namespace nsnake {
         *player.head() = nextPos;
     }
 
-    void extendPlayer(Player &player) {
+    void extendPlayer(Player & player)
+    {
         auto newTail = *player.tail();
         // Adjust new position in reverse direction to movement
         if (player.velocity.x != 0) {

@@ -28,7 +28,8 @@ namespace nsnake {
         std::unique_ptr<Scene> m_scene;
 
     public:
-        explicit Application(SceneID initialScene) {
+        explicit Application(SceneID initialScene)
+        {
             // Initialize curses
             if (initscr() == nullptr)
                 throw std::runtime_error("Failed to initialize curses screen");
@@ -48,7 +49,8 @@ namespace nsnake {
             m_scene = sceneMap.at(initialScene)(m_context);
         }
 
-        void start() {
+        void start()
+        {
             auto done = false;
             do {
                 // Update screen data
@@ -98,7 +100,8 @@ namespace nsnake {
             } while (!done);
         }
 
-        ~Application() {
+        ~Application()
+        {
             // Clear screen and de-initialize curses
             erase();
             refresh();
@@ -106,8 +109,9 @@ namespace nsnake {
         }
 
     private:
-        void updateExtents() {
-            auto &oldExtent = m_screenExtent;
+        void updateExtents()
+        {
+            auto & oldExtent = m_screenExtent;
             auto newExtent = getExtent(stdscr);
             m_context.extent += newExtent - oldExtent;
             oldExtent = newExtent;
@@ -115,8 +119,8 @@ namespace nsnake {
     };
 
     const SceneMap Application::sceneMap = {
-            {SceneID::NONE, [](auto &ctx) { return nullptr; }},
-            {SceneID::MENU, [](auto &ctx) { return std::make_unique<MenuScene>(ctx); }},
-            {SceneID::GAME, [](auto &ctx) { return std::make_unique<GameScene>(ctx); }},
-            {SceneID::KILL, [](auto &ctx) { return std::make_unique<KillScene>(ctx); }}};
+            {SceneID::NONE, [](auto & ctx) { return nullptr; }},
+            {SceneID::MENU, [](auto & ctx) { return std::make_unique<MenuScene>(ctx); }},
+            {SceneID::GAME, [](auto & ctx) { return std::make_unique<GameScene>(ctx); }},
+            {SceneID::KILL, [](auto & ctx) { return std::make_unique<KillScene>(ctx); }}};
 }// namespace nsnake

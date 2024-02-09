@@ -13,7 +13,8 @@ namespace nsnake {
     public:
         RandomIntGenerator() : m_gen(m_rd()) {}
 
-        int dist(int begin, int end) {
+        int dist(int begin, int end)
+        {
             return std::uniform_int_distribution<>(begin, end)(m_gen);
         }
     };

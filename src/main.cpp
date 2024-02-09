@@ -12,7 +12,8 @@
 
 using namespace nsnake;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char * argv[])
+{
     // Assume ISO-8859-1 character set for curses
     setlocale(LC_ALL, "");
 
@@ -26,7 +27,7 @@ int main(int argc, char *argv[]) {
 #endif//NDEBUG
     try {
         program.parse_args(argc, argv);
-    } catch (std::exception &e) {
+    } catch (std::exception & e) {
         // Invalid argument
         std::cerr << e.what() << std::endl;
         std::cerr << program;// Show usage
@@ -44,7 +45,7 @@ int main(int argc, char *argv[]) {
         Application app(initialScene);
         // Initialize curses and start the main event loop
         app.start();
-    } catch (std::runtime_error &e) {
+    } catch (std::runtime_error & e) {
 #ifndef NDEBUG
         std::cerr << e.what() << std::endl;
 #endif//NDEBUG

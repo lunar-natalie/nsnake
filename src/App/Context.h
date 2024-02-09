@@ -12,13 +12,14 @@
 
 namespace nsnake {
     struct Context {
-        WINDOW *window{};
+        WINDOW * window{};
         V2i extent{};
         V2i offset{};
         static const int BORDER_WIDTH = 1;
     };
 
-    void setWindow(Context &ctx, WINDOW *win) {
+    void setWindow(Context & ctx, WINDOW * win)
+    {
         auto border = V2i::uniform(Context::BORDER_WIDTH);
         ctx.window = win;
         ctx.extent = getExtent(win) - (2 * border);

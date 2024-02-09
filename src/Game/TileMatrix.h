@@ -31,27 +31,33 @@ namespace nsnake {
     public:
         TileMatrix() = default;
 
-        explicit TileMatrix(V2i dimensions) : m_dimensions{dimensions} {
+        explicit TileMatrix(V2i dimensions) : m_dimensions{dimensions}
+        {
             m_data = std::vector(dimensions.x, std::vector<TileState>(dimensions.y));
         }
 
-        constexpr void reset() {
+        constexpr void reset()
+        {
             std::fill(m_data.begin(), m_data.end(), std::vector<TileState>(m_dimensions.x, TileState::EMPTY));
         }
 
-        [[nodiscard]] constexpr V2i getCenter() const {
+        [[nodiscard]] constexpr V2i getCenter() const
+        {
             return static_cast<V2i>(m_dimensions / 2);
         }
 
-        [[nodiscard]] constexpr TileState &stateAt(V2i position) {
+        [[nodiscard]] constexpr TileState & stateAt(V2i position)
+        {
             return m_data[position.x][position.y];
         }
 
-        [[nodiscard]] TileState &stateAt(std::list<V2i>::iterator positionItr) {
+        [[nodiscard]] TileState & stateAt(std::list<V2i>::iterator positionItr)
+        {
             return m_data[positionItr->x][positionItr->y];
         }
 
-        constexpr void iterate(const std::function<void(const V2i &position, const TileState &state)> &callback) {
+        constexpr void iterate(const std::function<void(const V2i & position, const TileState & state)> & callback)
+        {
             Rows::iterator rowItr;
             Columns::iterator colItr;
             V2i pos;

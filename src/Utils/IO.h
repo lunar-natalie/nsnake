@@ -10,17 +10,20 @@
 #include "App/Context.h"
 
 namespace nsnake {
-    inline int putCh(chtype ch, V2i relativePos, const Context &ctx) noexcept {
+    inline int putCh(chtype ch, V2i relativePos, const Context & ctx) noexcept
+    {
         auto finalPos = relativePos + ctx.offset;
         return mvwaddch(ctx.window, finalPos.y, finalPos.x, ch);
     }
 
-    inline int putStr(const char *str, V2i relativePos, const Context &ctx) noexcept {
+    inline int putStr(const char * str, V2i relativePos, const Context & ctx) noexcept
+    {
         auto finalPos = relativePos + ctx.offset;
         return mvwaddstr(ctx.window, finalPos.y, finalPos.x, str);
     }
 
-    inline int putStrCenter(const char *str, const Context &ctx, int yOffset = 0) noexcept {
+    inline int putStrCenter(const char * str, const Context & ctx, int yOffset = 0) noexcept
+    {
         auto pos = ctx.extent;
         pos.x -= static_cast<int>(std::strlen(str));
         pos /= 2;

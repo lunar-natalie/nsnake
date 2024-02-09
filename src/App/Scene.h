@@ -25,16 +25,20 @@ namespace nsnake {
     };
 
     using SceneFlags_t = std::underlying_type<SceneFlags>::type;
-    inline constexpr SceneFlags_t operator|(const SceneFlags &lhs, const SceneFlags &rhs) {
+    inline constexpr SceneFlags_t operator|(const SceneFlags & lhs, const SceneFlags & rhs)
+    {
         return static_cast<SceneFlags_t>(lhs) | static_cast<SceneFlags_t>(rhs);
     }
-    inline constexpr SceneFlags_t operator|(const SceneFlags_t &lhs, const SceneFlags &rhs) {
+    inline constexpr SceneFlags_t operator|(const SceneFlags_t & lhs, const SceneFlags & rhs)
+    {
         return lhs | static_cast<SceneFlags_t>(rhs);
     }
-    inline constexpr SceneFlags_t operator&(const SceneFlags_t &lhs, const SceneFlags &rhs) {
+    inline constexpr SceneFlags_t operator&(const SceneFlags_t & lhs, const SceneFlags & rhs)
+    {
         return lhs & static_cast<SceneFlags_t>(rhs);
     }
-    inline constexpr bool operator==(const SceneFlags_t &lhs, const SceneFlags &rhs) {
+    inline constexpr bool operator==(const SceneFlags_t & lhs, const SceneFlags & rhs)
+    {
         return lhs == static_cast<SceneFlags_t>(rhs);
     }
 
@@ -42,11 +46,12 @@ namespace nsnake {
     protected:
         const SceneID m_id;
         const SceneFlags_t m_flags;
-        Context &m_context;
+        Context & m_context;
 
     public:
-        explicit Scene(Context &ctx, SceneID id, SceneFlags_t flags = SceneFlags::BORDER | SceneFlags::REDRAW | SceneFlags::RESIZE)
-            : m_context{ctx}, m_id{id}, m_flags{flags} {
+        explicit Scene(Context & ctx, SceneID id, SceneFlags_t flags = SceneFlags::BORDER | SceneFlags::REDRAW | SceneFlags::RESIZE)
+            : m_context{ctx}, m_id{id}, m_flags{flags}
+        {
             if (!hasFlag(SceneFlags::SUBWIN))
                 setWindow(m_context, stdscr);
         }
@@ -58,7 +63,8 @@ namespace nsnake {
 
         [[nodiscard]] constexpr auto getID() const { return m_id; }
 
-        [[nodiscard]] constexpr bool hasFlag(SceneFlags f) const {
+        [[nodiscard]] constexpr bool hasFlag(SceneFlags f) const
+        {
             return (m_flags & f) == f;
         }
     };

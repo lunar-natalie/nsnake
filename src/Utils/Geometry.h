@@ -15,11 +15,13 @@ namespace nsnake {
     struct Vec2 {
         T x, y;
 
-        static constexpr Vec2 uniform(T v) {
+        static constexpr Vec2 uniform(T v)
+        {
             return {v, v};
         }
 
-        static constexpr Vec2 clamp(const Vec2 &v, const Vec2 &lo, const Vec2 &hi) {
+        static constexpr Vec2 clamp(const Vec2 & v, const Vec2 & lo, const Vec2 & hi)
+        {
             Vec2 ret;
             if (v.x < lo.x)
                 ret.x = lo.x;
@@ -38,37 +40,43 @@ namespace nsnake {
         }
 
         template<typename U = T>
-        static constexpr T product(const Vec2<U> &v) {
+        static constexpr T product(const Vec2<U> & v)
+        {
             return v.x * v.y;
         }
 
-        explicit constexpr operator V2i() {
+        explicit constexpr operator V2i()
+        {
             return {static_cast<int>(x), static_cast<int>(y)};
         }
 
         template<typename U>
-        constexpr Vec2 &operator+=(U rhs) {
+        constexpr Vec2 & operator+=(U rhs)
+        {
             auto result = static_cast<Vec2>(*this + rhs);
             this->x = result.x;
             this->y = result.y;
             return *this;
         }
         template<typename U>
-        constexpr Vec2 &operator-=(U rhs) {
+        constexpr Vec2 & operator-=(U rhs)
+        {
             auto result = static_cast<Vec2>(*this - rhs);
             this->x = result.x;
             this->y = result.y;
             return *this;
         }
         template<typename U>
-        constexpr Vec2 &operator*=(U rhs) {
+        constexpr Vec2 & operator*=(U rhs)
+        {
             auto result = static_cast<Vec2>(*this * rhs);
             this->x = result.x;
             this->y = result.y;
             return *this;
         }
         template<typename U>
-        constexpr Vec2 &operator/=(U rhs) {
+        constexpr Vec2 & operator/=(U rhs)
+        {
             auto quotient = static_cast<Vec2>(*this / rhs);
             this->x = quotient.x;
             this->y = quotient.y;
@@ -78,63 +86,77 @@ namespace nsnake {
 
     // Comparison
     template<typename T>
-    inline constexpr bool operator==(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+    inline constexpr bool operator==(const Vec2<T> & lhs, const Vec2<T> & rhs)
+    {
         return (lhs.x == rhs.x) && (lhs.y == rhs.y);
     }
     template<typename T>
-    inline constexpr bool operator!=(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+    inline constexpr bool operator!=(const Vec2<T> & lhs, const Vec2<T> & rhs)
+    {
         return !(lhs == rhs);
     }
     template<typename T>
-    inline constexpr bool operator>(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+    inline constexpr bool operator>(const Vec2<T> & lhs, const Vec2<T> & rhs)
+    {
         return (lhs.x > rhs.x) && (lhs.y > rhs.y);
     }
     template<typename T>
-    inline constexpr bool operator<(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+    inline constexpr bool operator<(const Vec2<T> & lhs, const Vec2<T> & rhs)
+    {
         return (lhs.x < rhs.x) || (lhs.y < rhs.y);
     }
     template<typename T>
-    inline constexpr bool operator>=(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+    inline constexpr bool operator>=(const Vec2<T> & lhs, const Vec2<T> & rhs)
+    {
         return (lhs > rhs) || (lhs == rhs);
     }
     template<typename T>
-    inline constexpr bool operator<=(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+    inline constexpr bool operator<=(const Vec2<T> & lhs, const Vec2<T> & rhs)
+    {
         return (lhs < rhs) || (lhs == rhs);
     }
 
     // Non-uniform arithmetic
     template<typename T>
-    inline constexpr Vec2<T> operator+(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+    inline constexpr Vec2<T> operator+(const Vec2<T> & lhs, const Vec2<T> & rhs)
+    {
         return {lhs.x + rhs.x, lhs.y + rhs.y};
     }
     template<typename T>
-    inline constexpr Vec2<T> operator-(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+    inline constexpr Vec2<T> operator-(const Vec2<T> & lhs, const Vec2<T> & rhs)
+    {
         return {lhs.x - rhs.x, lhs.y - rhs.y};
     }
     template<typename T>
-    inline constexpr Vec2<T> operator*(const Vec2<T> &lhs, const Vec2<T> &rhs) {
+    inline constexpr Vec2<T> operator*(const Vec2<T> & lhs, const Vec2<T> & rhs)
+    {
         return {lhs.x * rhs.x, lhs.y * rhs.y};
     }
     template<typename T, typename U>
-    inline constexpr V2d operator/(const Vec2<T> &lhs, const Vec2<U> &rhs) {
+    inline constexpr V2d operator/(const Vec2<T> & lhs, const Vec2<U> & rhs)
+    {
         return {lhs.x / static_cast<double>(rhs.x), lhs.y / static_cast<double>(rhs.y)};
     }
 
     // Uniform arithmetic
     template<typename T, typename U>
-    inline constexpr Vec2<T> operator*(const Vec2<T> &lhs, U rhs) {
+    inline constexpr Vec2<T> operator*(const Vec2<T> & lhs, U rhs)
+    {
         return operator*(lhs, Vec2<T>::uniform(rhs));
     }
     template<typename T, typename U>
-    inline constexpr V2d operator/(const Vec2<T> &lhs, U rhs) {
+    inline constexpr V2d operator/(const Vec2<T> & lhs, U rhs)
+    {
         return operator/(lhs, Vec2<U>::uniform(rhs));
     }
     template<typename T, typename U>
-    inline constexpr auto operator*(T lhs, const Vec2<U> &rhs) {
+    inline constexpr auto operator*(T lhs, const Vec2<U> & rhs)
+    {
         return operator*(rhs, lhs);
     }
     template<typename T, typename U>
-    inline constexpr auto operator/(T lhs, const Vec2<U> &rhs) {
+    inline constexpr auto operator/(T lhs, const Vec2<U> & rhs)
+    {
         return operator/(rhs, lhs);
     }
 }// namespace nsnake
